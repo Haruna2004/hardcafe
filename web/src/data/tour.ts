@@ -46,7 +46,7 @@ export const TOUR: TourStop[] = [
     kicker: 'Print farm',
     title: 'A wall of printers, on show',
     body: '16 FDM and 2 resin printers face the café through glass. Members queue jobs from their phones. A camera AI pauses failed prints and pings staff.',
-    stats: [['Printing', '₦120/g'], ['Material cost', '≈₦50/g'], ['Runs', 'overnight too']],
+    stats: [['Printing', '₦150/g'], ['Material cost', '≈₦50/g'], ['Runs', 'overnight too']],
     shot: { target: [24.5, 1.3, 19.6], dist: 8.5, az: 0.05, pol: 1.2 }, walls: 'down', hold: 9,
   },
   {

@@ -11,7 +11,7 @@ export const PRICES = {
   studioMonthly: 650000, // private team studio, 4–6 people
   wetBenchDay: 15000,
   wetBenchMonthly: 180000,
-  print3dPerGram: 120,
+  print3dPerGram: 150,
   laserPerMin: 300,
   cncPerHour: 25000,
   pcbMillPerBoard: 15000,

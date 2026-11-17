@@ -66,6 +66,7 @@ export class Building {
   pieces: Piece[] = []
   mode: WallMode = 'cutaway'
   roofLift = 0
+  snapNext = false
   private dummy = new THREE.Object3D()
 
   constructor() {
@@ -424,7 +425,7 @@ export class Building {
         const facing = p.ext ? -(p.nx * fwd.x + p.nz * fwd.z) : 0
         if (along < -0.8 || (p.ext && facing > 0.25)) goal = CUT_H
       }
-      const next = p.cut + (goal - p.cut) * (1 - Math.exp(-dt * 7))
+      const next = this.snapNext ? goal : p.cut + (goal - p.cut) * (1 - Math.exp(-dt * 7))
       if (Math.abs(next - p.cut) > 0.0005) {
         p.cut = Math.abs(goal - next) < 0.002 ? goal : next
         changed = true
@@ -432,6 +433,7 @@ export class Building {
       if (p.ext && p.nz > 0.9 && !(p.inst as any).isCap) southFrac = Math.min(southFrac, (Math.min(p.y1, p.cut)) / p.y1)
     }
     if (changed) this.applyPieces()
+    if (this.snapNext) { this.roofLift = this.mode === 'up' ? 0 : 1; this.snapNext = false }
     // façade dressing only when south wall stands
     this.facade.visible = southFrac > 0.6
     // roof lifts away when not in 'up' mode
