@@ -259,3 +259,5 @@ details.more summary { cursor: pointer; font-weight: 500; color: var(--graphite)
 .rules span em { display: block; font-style: normal; color: var(--graphite); font-weight: 500; margin-top: 8px; }
 .rules span small.src { display: block; }
 .rules span { max-width: 66ch; }
+.film { margin: 0; }
+.film video { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 16px; background: var(--dusk); object-fit: cover; }
