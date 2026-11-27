@@ -31,7 +31,7 @@ export const cafeBar: PropBuilder = () => {
   const em = new THREE.Group()
   em.position.set(-0.9, 1.0, -0.15)
   box(em, 0.72, 0.42, 0.46, mat('#D8DCDF', { rough: 0.2, metal: 0.85 }), 0, 0, 0, 0.04)
-  box(em, 0.74, 0.06, 0.48, mat(BRAND.colors.yellow, { rough: 0.4 }), 0, 0.42, 0, 0.02)
+  box(em, 0.74, 0.06, 0.48, mat('#1F1F29', { rough: 0.4 }), 0, 0.42, 0, 0.02)
   for (const sx of [-0.18, 0.18]) {
     cyl(em, 0.04, 0.05, 0.1, M.black(), sx, 0.12, 0.26, 10)
     box(em, 0.06, 0.02, 0.18, M.black(), sx, 0.11, 0.33)

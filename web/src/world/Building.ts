@@ -246,7 +246,7 @@ export class Building {
     mk(glass, glassMat('#D4EEF2', 0.16), false)
     mk(frames, mat('#2B2F36', { rough: 0.5, metal: 0.4 }))
     mk(plinth, mat('#2B2F36', { rough: 0.85 }))
-    mk(band, mat(BRAND.colors.yellow, { rough: 0.6 }))
+    mk(band, mat('#2B2B33', { rough: 0.7 }))
     // wall top caps (dark, Sims-like cut edge)
     const capSpecs = caps.map((s) => ({ ...s, thick: s.thick + 0.005 }))
     const capInst = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), mat('#3A3F47', { rough: 0.8 }), capSpecs.length)
@@ -336,18 +336,18 @@ export class Building {
     // canopy over the café glass and entrance
     const canopy = new THREE.Group()
     box(canopy, 17.6, 0.12, 1.8, mat('#15171B', { rough: 0.6 }), 0, 0, 0)
-    for (let i = 0; i < 18; i++) box(canopy, 0.48, 0.03, 1.81, mat(i % 2 ? BRAND.colors.yellow : '#15171B', { rough: 0.6 }), -8.5 + i * 1.0, 0.12, 0)
+    for (let i = 0; i < 18; i++) box(canopy, 0.48, 0.03, 1.81, mat(i % 2 ? '#8B6A4C' : '#1F1F29', { rough: 0.6 }), -8.5 + i * 1.0, 0.12, 0)
     canopy.position.set(22.2, 3.18, z + 0.9)
     f.add(canopy)
     for (const x of [13.8, 30.6]) box(f, 0.06, 0.06, 1.8, mat(P.steel, { metal: 0.6 }), x, 3.1, z + 0.9)
     // projecting blade sign
-    const blade = new THREE.Mesh(boxGeo(0.12, 1.6, 0.9), new THREE.MeshStandardMaterial({ color: BRAND.colors.green }))
+    const blade = new THREE.Mesh(boxGeo(0.12, 1.6, 0.9), new THREE.MeshStandardMaterial({ color: '#FEFFFC' }))
     blade.position.set(12.9, 3.0, z + 0.5)
     f.add(blade)
     const bladeTex = canvasTex(128, 256, (g, w, h) => {
-      g.fillStyle = BRAND.colors.green; g.fillRect(0, 0, w, h)
-      g.fillStyle = BRAND.colors.yellow; g.font = 'bold 30px sans-serif'; g.textAlign = 'center'
-      'LAB'.split('').forEach((ch, i) => g.fillText(ch, w / 2, 70 + i * 52))
+      g.fillStyle = '#FEFFFC'; g.fillRect(0, 0, w, h)
+      g.fillStyle = '#2C2C2C'; g.font = '400 30px "Instrument Serif", Georgia, serif'; g.textAlign = 'center'
+      'ATOMS'.split('').forEach((ch, i) => g.fillText(ch, w / 2, 52 + i * 40))
     }, false)
     for (const s of [-1, 1]) {
       const p = new THREE.Mesh(new THREE.PlaneGeometry(0.88, 1.58), new THREE.MeshStandardMaterial({ map: bladeTex }))
@@ -373,8 +373,8 @@ export class Building {
     f.add(ps)
     // posters inside (visible through glass)
     const posters: [string, string, string, number, number, number, number][] = [
-      ['MAKE IN\nNIGERIA', 'Prototype → product', BRAND.colors.green, 16.2, 2.0, 11.08, 0],
-      ['NO\nWAHALA', 'Book a bench in 30s', BRAND.colors.clay, 30.85, 2.0, 12.6, -Math.PI / 2],
+      ['Made in\nYaba', 'Prototype to product', '#2C2C2C', 16.2, 2.0, 11.08, 0],
+      ['Book a\nbench', 'From your phone', '#5E7D6A', 30.85, 2.0, 12.6, -Math.PI / 2],
     ]
     for (const [t, s, bg, x, y, zz, ry] of posters) {
       const pm = new THREE.Mesh(new THREE.PlaneGeometry(0.75, 1.05), new THREE.MeshStandardMaterial({ map: posterTex(t, s, bg) }))

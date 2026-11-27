@@ -3,7 +3,7 @@ import { STREET, BUILDING } from '../data/layout'
 import { mat, P } from '../engine/materials'
 import { box, cyl } from '../engine/geom'
 import { asphaltTex, pavingTex, lateriteTex, canvasTex, rng } from '../engine/textures'
-import { BRAND } from '../brand'
+import { BRAND, DANFO } from '../brand'
 import { buildKeke } from './props/misc'
 
 export interface Vehicle {
@@ -174,7 +174,7 @@ export class Street {
       wheels.push(m)
     }
     if (kind === 'danfo') {
-      const y = mat(BRAND.colors.yellow, { rough: 0.45 })
+      const y = mat(DANFO, { rough: 0.45 })
       box(g, 4.5, 1.25, 1.85, y, 0, 0.42, 0, 0.18)
       box(g, 4.3, 0.55, 1.75, y, -0.1, 1.62, 0, 0.18)
       box(g, 4.32, 0.42, 1.87, mat('#1d2a36', { rough: 0.1, metal: 0.3 }), -0.05, 1.55, 0, 0.08) // window band

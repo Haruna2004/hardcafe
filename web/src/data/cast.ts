@@ -21,8 +21,9 @@ export interface CastMember {
 }
 
 const staffTop = (c = BRAND.colors.yellow): Partial<Look> => ({ top: 'polo', topColor: c, bottom: 'trousers', bottomColor: '#1C1F24' })
-const h = (hh: number, mm = 0) => hh * 60 + mm
+const h = (hh: number, mm = 0) => Math.min(hh * 60 + mm, 19 * 60 + 55)
 
+export const CLOSE = h(19, 55)
 export const TEAMS: Record<string, { name: string; sector: string; pitch: string; color: string }> = {
   coldchain: { name: 'ColdChain', sector: 'Agriculture + Renewable energy', pitch: 'Solar cold-room sensors so Mile 12 tomato traders stop losing half a truckload to heat.', color: '#3FB6A8' },
   skyfarm: { name: 'SkyFarm', sector: 'Agriculture + Drones', pitch: 'Crop-scouting drones that spot armyworm early for smallholder farms in Kaduna.', color: '#5BA4CF' },
@@ -31,11 +32,11 @@ export const TEAMS: Record<string, { name: string; sector: string; pitch: string
 }
 
 export const STAFF: CastMember[] = [
-  { id: 'tunde', name: 'Tunde Bakare', title: 'Lab Manager', persona: 'labManager', bio: 'Ex-electronics engineer. Runs inductions, safety and the hard questions. One of two technical leads.', plan: 'Staff', arrive: h(7, 30), leave: h(21, 30), look: { fem: false, hair: 'fade', glasses: true, beard: true, ...staffTop(BRAND.colors.green) }, seed: 11 },
+  { id: 'tunde', name: 'Tunde Bakare', title: 'Lab Manager', persona: 'labManager', bio: 'Ex-electronics engineer. Runs inductions, safety and the hard questions. One of two technical leads.', plan: 'Staff', arrive: h(7, 35), leave: h(20), look: { fem: false, hair: 'fade', glasses: true, beard: true, ...staffTop(BRAND.colors.green) }, seed: 11 },
   { id: 'hauwa', name: 'Dr. Hauwa Bello', title: 'Wet Lab Lead', persona: 'scienceLead', bio: 'Microbiologist. Owns biosafety, reagent ordering and wet-lab training. Second technical lead.', plan: 'Staff', arrive: h(8, 30), leave: h(18), look: { fem: true, hair: 'hijab', ...staffTop(BRAND.colors.green), ankaraSeed: 1 }, seed: 12 },
   { id: 'chiamaka', name: 'Chiamaka Obi', title: 'Ops Associate', persona: 'runner', bio: 'Non-technical hire. The ops app tells her where every part lives and how to fix the common faults.', plan: 'Staff', arrive: h(7, 40), leave: h(20), look: { fem: true, hair: 'braids', ...staffTop() }, seed: 13 },
   { id: 'musa', name: 'Musa Abdullahi', title: 'Ops Associate', persona: 'runner', bio: 'Non-technical hire, ex-logistics. Fastest picker in the library thanks to the AI route.', plan: 'Staff', arrive: h(8), leave: h(21, 30), look: { fem: false, hair: 'cap', ...staffTop(), ankaraSeed: 1 }, seed: 14 },
-  { id: 'kemi', name: 'Kemi Adeyemi', title: 'Café Lead', persona: 'barista', bio: 'Runs the coffee bar and the jollof. The café pays for the free Wi-Fi.', plan: 'Staff', arrive: h(7, 15), leave: h(21, 45), look: { fem: true, hair: 'gele', top: 'tee', topColor: '#1C1F24', bottom: 'trousers', bottomColor: '#1C1F24', apron: BRAND.colors.yellow }, seed: 15 },
+  { id: 'kemi', name: 'Kemi Adeyemi', title: 'Café Lead', persona: 'barista', bio: 'Runs the coffee bar and the jollof. The café pays for the free Wi-Fi.', plan: 'Staff', arrive: h(7, 30), leave: h(21, 45), look: { fem: true, hair: 'gele', top: 'tee', topColor: '#1C1F24', bottom: 'trousers', bottomColor: '#1C1F24', apron: BRAND.colors.yellow }, seed: 15 },
   { id: 'bola', name: 'Bola Ogun', title: 'Front Desk Host', persona: 'host', bio: 'First face you meet. Handles day passes, lockers and new-member tours.', plan: 'Staff', arrive: h(7, 30), leave: h(21), look: { fem: false, hair: 'fade', ...staffTop() }, seed: 16 },
   { id: 'ife', name: 'Ife Martins', title: 'Parts Shop', persona: 'clerk', bio: 'Sells boards and sensors to walk-ins, tests every item before it leaves the counter.', plan: 'Staff', arrive: h(8, 30), leave: h(19), look: { fem: true, hair: 'puff', ...staffTop(BRAND.colors.violet) }, seed: 17 },
   { id: 'ronke', name: 'Ronke Ajayi', title: 'Facilities', persona: 'facilities', bio: 'Keeps the space clean and stocked. The AI rota tells her which zone needs her next.', plan: 'Staff', arrive: h(7), leave: h(17), look: { fem: true, hair: 'gele', top: 'polo', topColor: '#9AA3AD', bottom: 'skirt', bottomColor: '#2B3A55', ankaraSeed: 3 }, seed: 18 },

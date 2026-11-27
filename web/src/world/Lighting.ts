@@ -69,7 +69,7 @@ export class Lighting {
       [17, 3.0, 4.5, '#fff1db', 16], [5, 3.0, 4.5, '#eafffb', 12], [35.5, 3.0, 15.5, '#f1ecff', 10], [4, 3.0, 15.5, '#ffe9d0', 10],
       [5, 3.0, 24, '#fff1db', 10], [35.5, 3.0, 24, '#e9e0ff', 9], [29.5, 3.2, 4, '#ffffff', 9],
     ]
-    for (const [x, y, z, c, d] of spots) {
+    for (const [x, y, z, c, d] of quality === 'low' ? spots.slice(0, 4) : spots) {
       const l = new THREE.PointLight(c, 0, d, 1.4)
       l.position.set(x, y, z)
       scene.add(l)

@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { mat, P } from '../../engine/materials'
 import { box, cyl, sph, markDynamic } from '../../engine/geom'
 import { canvasTex, rng } from '../../engine/textures'
-import { BRAND } from '../../brand'
+import { BRAND, DANFO, NAIJA_GREEN } from '../../brand'
 import { M, led, screen, setLed, type PropBuilder } from './common'
 
 // ── Power room ──
@@ -229,7 +229,7 @@ export const kekeParked: PropBuilder = () => {
   return { group: g, w: 2.6, d: 1.3 }
 }
 
-export function buildKeke(g: THREE.Object3D, color = BRAND.colors.yellow) {
+export function buildKeke(g: THREE.Object3D, color = DANFO) {
   // tricycle "keke napep": cabin with canvas roof
   box(g, 2.2, 0.35, 1.2, mat(color, { rough: 0.5 }), 0, 0.35, 0, 0.12)
   box(g, 0.6, 0.8, 1.15, mat(color, { rough: 0.5 }), 0.8, 0.6, 0, 0.12)
@@ -243,7 +243,7 @@ export function buildKeke(g: THREE.Object3D, color = BRAND.colors.yellow) {
     w.position.y = 0.22
   }
   // green stripe (Lagos keke livery)
-  box(g, 2.2, 0.06, 1.22, mat(BRAND.colors.green), 0, 0.62, 0)
+  box(g, 2.2, 0.06, 1.22, mat(NAIJA_GREEN), 0, 0.62, 0)
 }
 
 export const bikeRack: PropBuilder = () => {

@@ -225,34 +225,26 @@ export function signTex(lines: { text: string; font: string; color: string; y: n
 
 export function brandSignTex() {
   return canvasTex(1024, 256, (g, w, h) => {
-    g.fillStyle = BRAND.colors.yellow
+    g.fillStyle = '#FEFFFC'
     g.fillRect(0, 0, w, h)
-    // danfo stripes
-    g.fillStyle = BRAND.colors.ink
-    g.fillRect(0, h - 26, w, 12)
-    g.fillRect(0, 14, w, 6)
-    g.textBaseline = 'middle'
-    g.fillStyle = BRAND.colors.ink
-    g.font = '800 128px "Bricolage Grotesque Variable", "Arial Black", sans-serif'
-    g.textAlign = 'left'
-    g.fillText(BRAND.name, 60, h * 0.47)
-    const nameW = g.measureText(BRAND.name).width
-    g.font = '700 46px "Inter Variable", Arial, sans-serif'
-    g.fillText(BRAND.city, 60 + nameW + 28, h * 0.38)
-    g.font = '500 30px "Inter Variable", Arial, sans-serif'
-    g.fillStyle = '#3a3220'
-    g.fillText(BRAND.category.toUpperCase(), 60 + nameW + 28, h * 0.62)
-    // spark mark
-    g.fillStyle = BRAND.colors.green
-    g.beginPath()
-    const cx = w - 110, cy = h / 2
-    for (let i = 0; i < 8; i++) {
-      const a = (i / 8) * Math.PI * 2
-      const rr = i % 2 ? 22 : 70
-      g.lineTo(cx + Math.cos(a) * rr, cy + Math.sin(a) * rr)
-    }
-    g.closePath()
-    g.fill()
+    g.strokeStyle = '#DEE2DE'
+    g.lineWidth = 3
+    g.strokeRect(10, 10, w - 20, h - 20)
+    // mark: nucleus + tilted orbit
+    const cx = 150, cy = h / 2
+    g.save(); g.translate(cx, cy); g.rotate(-0.49)
+    g.strokeStyle = '#2C2C2C'; g.lineWidth = 6
+    g.beginPath(); g.ellipse(0, 0, 82, 34, 0, 0, Math.PI * 2); g.stroke()
+    g.restore()
+    g.fillStyle = '#41A1CF'; g.beginPath(); g.arc(cx, cy, 17, 0, Math.PI * 2); g.fill()
+    g.textBaseline = 'middle'; g.textAlign = 'left'
+    g.fillStyle = '#2C2C2C'
+    g.font = '400 150px "Instrument Serif", Georgia, serif'
+    g.fillText('Atoms', 270, h * 0.53)
+    const nameW = g.measureText('Atoms').width
+    g.font = '500 28px "Geist Variable", Arial, sans-serif'
+    g.fillStyle = '#646464'
+    g.fillText('Café, workshop and lab', 270 + nameW + 36, h * 0.6)
   }, false)
 }
 
@@ -398,25 +390,25 @@ function makeDraw(kind: ScreenKind, seed: number): (g: CanvasRenderingContext2D,
       }
     case 'kiosk':
       return (g, t) => {
-        g.fillStyle = BRAND.colors.paper; g.fillRect(0, 0, W, H)
-        g.fillStyle = BRAND.colors.yellow; g.fillRect(0, 0, W, 34)
-        g.fillStyle = BRAND.colors.ink; g.font = 'bold 16px sans-serif'; g.fillText(`${BRAND.name} · Check in`, 10, 23)
+        g.fillStyle = '#FEFFFC'; g.fillRect(0, 0, W, H)
+        g.fillStyle = '#DEE2DE'; g.fillRect(0, 34, W, 1)
+        g.fillStyle = '#2C2C2C'; g.font = '20px Georgia, serif'; g.fillText(`${BRAND.name}`, 10, 24)
         g.fillStyle = '#333'; g.font = '13px sans-serif'; g.fillText('Tap your card or scan QR', 10, 60)
         g.strokeStyle = BRAND.colors.ink; g.lineWidth = 2
         const s = 54 + Math.sin(t * 3) * 3
         g.strokeRect(W / 2 - s / 2, 80 + (54 - s) / 2, s, s)
-        g.fillStyle = BRAND.colors.green; g.fillRect(10, 140, W - 20, 12)
+        g.fillStyle = '#41A1CF'; g.fillRect(10, 140, W - 20, 3)
       }
     case 'stage':
       return (g, t) => {
         const slide = Math.floor(t / 6 + seed) % 3
-        g.fillStyle = slide === 0 ? BRAND.colors.ink : slide === 1 ? BRAND.colors.green : BRAND.colors.clay
+        g.fillStyle = slide === 1 ? '#FEFFFC' : '#1F1F29'
         g.fillRect(0, 0, W, H)
-        g.fillStyle = BRAND.colors.yellow; g.font = 'bold 22px sans-serif'
-        g.fillText(slide === 0 ? 'DEMO NIGHT' : slide === 1 ? 'Made in Yaba' : 'Ship it.', 14, 46)
-        g.fillStyle = '#fff'; g.font = '13px sans-serif'
-        g.fillText(slide === 0 ? 'Fridays · 6pm · free entry' : slide === 1 ? '14 prototypes this month' : 'Hardware is hard. Together.', 14, 76)
-        g.fillStyle = 'rgba(255,255,255,0.2)'; g.fillRect(14, 100, W - 28, 6); g.fillStyle = BRAND.colors.yellow; g.fillRect(14, 100, ((t % 6) / 6) * (W - 28), 6)
+        g.fillStyle = slide === 1 ? '#2C2C2C' : '#FEFFFC'; g.font = '26px Georgia, serif'
+        g.fillText(slide === 0 ? 'Demo Night' : slide === 1 ? 'Made in Yaba' : 'Ship it', 14, 46)
+        g.fillStyle = slide === 1 ? '#646464' : '#B4B8B4'; g.font = '13px sans-serif'
+        g.fillText(slide === 0 ? 'Fridays, 6pm, free entry' : slide === 1 ? '14 prototypes this month' : 'Show what you built', 14, 76)
+        g.fillStyle = 'rgba(128,128,128,0.25)'; g.fillRect(14, 100, W - 28, 3); g.fillStyle = '#41A1CF'; g.fillRect(14, 100, ((t % 6) / 6) * (W - 28), 6)
       }
     case 'tv':
       return (g, t) => {
@@ -433,7 +425,7 @@ function makeDraw(kind: ScreenKind, seed: number): (g: CanvasRenderingContext2D,
     case 'class':
       return (g) => {
         g.fillStyle = '#fff'; g.fillRect(0, 0, W, H)
-        g.fillStyle = BRAND.colors.rose; g.font = 'bold 20px sans-serif'; g.fillText('Robotics Saturday', 10, 30)
+        g.fillStyle = '#2C2C2C'; g.font = '22px Georgia, serif'; g.fillText('Robotics Saturday', 10, 30)
         g.fillStyle = '#333'; g.font = '13px sans-serif'; g.fillText('1. Wire the motor driver', 10, 60); g.fillText('2. Line-follow sensor', 10, 80); g.fillText('3. Race!', 10, 100)
         g.fillStyle = BRAND.colors.sky; g.fillRect(160, 50, 80, 60)
       }
@@ -486,14 +478,14 @@ export function updateScreens(t: number, dt: number) {
 export function menuTex() {
   return canvasTex(512, 256, (g, w, h) => {
     g.fillStyle = '#1C1F24'; g.fillRect(0, 0, w, h)
-    g.fillStyle = BRAND.colors.yellow; g.font = 'bold 30px sans-serif'; g.fillText('MENU', 22, 42)
+    g.fillStyle = '#FEFFFC'; g.font = '34px Georgia, serif'; g.fillText('Menu', 22, 44)
     const items = [['Espresso', '2,500'], ['Cappuccino', '3,500'], ['Zobo (chilled)', '1,500'], ['Chapman', '2,500'], ['Jollof + chicken', '6,500'], ['Meat pie', '1,800'], ['Puff-puff (6)', '1,200']]
     g.font = '19px sans-serif'
     items.forEach(([n, p], i) => {
       const col = i < 4 ? 0 : 1
       const row = i < 4 ? i : i - 4
       g.fillStyle = '#F6F3EC'; g.fillText(n, 22 + col * 250, 84 + row * 40)
-      g.fillStyle = BRAND.colors.yellow; g.fillText('₦' + p, 170 + col * 250, 84 + row * 40)
+      g.fillStyle = '#9FD3EC'; g.fillText('₦' + p, 170 + col * 250, 84 + row * 40)
     })
   }, false)
 }

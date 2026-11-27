@@ -1,5 +1,5 @@
-import '@fontsource-variable/inter'
-import '@fontsource-variable/bricolage-grotesque'
+import '@fontsource-variable/geist'
+import '@fontsource/instrument-serif/400.css'
 import './site.css'
 import { planSVG, ACCESS_LABEL } from './plan'
 import { ROOMS } from '../data/layout'

@@ -22,7 +22,7 @@ const rand = (a: number, b: number) => a + Math.random() * (b - a)
 export class Sim {
   agents: Agent[] = []
   byId = new Map<string, Agent>()
-  minute = 7 * 60 + 25
+  minute = 7 * 60 + 40
   day = 4 // Friday
   speedIdx = 1
   minPerSec = 2.2
@@ -40,15 +40,17 @@ export class Sim {
   fixTimes: number[] = []
   printsDone = 0
   machineMinutes = 0
-  power = { grid: true, soc: 0.82, solarKw: 0, loadKw: 0, gen: false, outages: 0, outageMin: 0, nextOutage: 9 * 60 + 40, outageEnd: 0, genMinutes: 0, dieselSavedL: 0 }
+  power = { grid: true, soc: 0.82, solarKw: 0, loadKw: 0, gen: false, outages: 0, outageMin: 0, nextOutage: Infinity, outageEnd: 0, genMinutes: 0, dieselSavedL: 0 }
   demo: { active: boolean; start: number; end: number; schedule: { id: string; start: number; end: number }[] } = { active: false, start: 18 * 60, end: 19 * 60 + 10, schedule: [] }
   inventory: Sku[] = SKUS.map((s) => ({ ...s }))
   spawned = new Set<string>()
-  private nextPublic = 7 * 60 + 40
+  private nextPublic = 8 * 60
   private nextShopper = 9 * 60
   private nextGeneric = 8 * 60 + 15
   genericCount = 0
   listeners = new Set<() => void>()
+  player: Agent | null = null
+  onPlayerTick?: (dMin: number) => void
   onOutage?: (start: boolean) => void
   version = 0
 
@@ -136,7 +138,7 @@ export class Sim {
       }
     }
     // generic day-pass members
-    if (m >= this.nextGeneric && m < 15 * 60 && this.genericCount < (weekend ? 4 : 9)) {
+    if (m >= this.nextGeneric && m < 14 * 60 && this.genericCount < (weekend ? 4 : 9)) {
       this.nextGeneric = m + rand(25, 60)
       this.genericCount++
       const persona: Persona = (['hardware', 'student', 'designer', 'hardware', 'student'] as Persona[])[Math.floor(Math.random() * 5)]
@@ -147,7 +149,7 @@ export class Sim {
       this.spawn(info, Math.random() > 0.5 ? POINTS.spawnWest : POINTS.spawnEast, brainFor(persona, c))
     }
     // café public
-    if (m >= this.nextPublic && m < 21 * 60) {
+    if (m >= this.nextPublic && m < 19 * 60 + 15) {
       const hr = m / 60
       const busy = (hr > 8 && hr < 10) || (hr > 12 && hr < 14.5) || (hr > 17 && hr < 19.5)
       this.nextPublic = m + rand(busy ? 6 : 14, busy ? 16 : 32)
@@ -160,7 +162,7 @@ export class Sim {
       }
     }
     // parts shoppers
-    if (m >= this.nextShopper && m < 19 * 60) {
+    if (m >= this.nextShopper && m < 18 * 60 + 45) {
       this.nextShopper = m + rand(16, 40)
       if (this.agents.filter((a) => !a.gone && a.info.role === 'shopper').length < 3) {
         const seed = Math.floor(Math.random() * 100000)
@@ -314,18 +316,13 @@ export class Sim {
     }
   }
 
-  triggerOutage() {
-    this.power.nextOutage = this.minute
-    if (this.power.grid) this.updatePower(0, 30, 0)
-  }
-
   // ── main update ──
   update(dtReal: number, elevation: number, overcast: number) {
     const speed = this.speed
     let dMin = dtReal * this.minPerSec * speed
     // overnight fast-forward
     const m = this.minute % 1440
-    if (speed > 0 && (m > 22 * 60 + 20 || m < 6 * 60 + 40) && this.agents.every((a) => a.gone)) dMin = dtReal * 90
+    if (speed > 0 && (m > 20 * 60 + 15 || m < 7 * 60 + 30) && this.agents.every((a) => a.gone || a.info.role === 'player')) dMin = dtReal * 90
     const prevDay = Math.floor(this.minute / 1440)
     this.minute += dMin
     if (Math.floor(this.minute / 1440) !== prevDay) this.newDay()
@@ -356,6 +353,7 @@ export class Sim {
       if (this.demo.active && !wasActive) this.emit('🎤', 'Demo Night is starting on the café stage. Free entry.', { kind: 'social' })
       if (!this.demo.active && wasActive) this.emit('👏', 'Demo Night done: 4 teams showed prototypes to 30+ people.', { kind: 'social' })
     }
+    if (dMin > 0 && this.player && !this.player.gone) this.onPlayerTick?.(dMin)
     // agents
     const moveDt = dtReal * Math.max(speed, 0)
     for (const a of this.agents) {
@@ -375,22 +373,43 @@ export class Sim {
     this.version++
   }
 
+  // Clear everyone and start a fresh day at the given time (used by play mode)
+  reset(day: number, minuteOfDay: number) {
+    for (const a of this.agents) {
+      a.char.root.parent?.remove(a.char.root)
+      a.char.root.remove(a.bubble)
+      a.char.root.remove(a.tag)
+      a.setSelected(false, this.scene)
+      this.release(a)
+    }
+    Agent.live = 0
+    for (const sl of this.world.slots) { sl.occupant = null; sl.reserved = null }
+    for (const p of this.world.props) { p.state.active = false; p.state.progress = 0; p.state.fault = false; p.usage = 0 }
+    this.agents = []
+    this.byId.clear()
+    this.requests = []; this.tickets = []; this.orders = []; this.jobs = []
+    this.player = null
+    this.minute = Math.floor(this.minute / 1440 + 1) * 1440 + minuteOfDay
+    this.day = day - 1
+    this.newDay()
+  }
+
   private newDay() {
     this.day++
     this.revenue = { passes: 0, members: 0, machines: 0, parts: 0, cafe: 0, studios: 0, lab: 0, training: 0, events: 0 }
+    this.ticker = []
     this.revenueByHour.fill(0)
     this.occupancyByHour.fill(0)
     this.checkins = 0
     this.spawned.clear()
     this.genericCount = 0
-    this.nextPublic = 7 * 60 + 40
+    this.nextPublic = 8 * 60
     this.nextShopper = 9 * 60
     this.nextGeneric = 8 * 60 + 15
     this.agents = this.agents.filter((a) => !a.gone)
-    this.power.nextOutage = 9 * 60 + rand(0, 240)
     for (const p of this.world.props) p.usage = 0
     this.earn('studios', (PRICES.studioMonthly * 2) / 30, 'Team studios (daily accrual, 2 leased)', '🔑')
-    this.emit('🌅', `${this.dayName} morning. Doors open at 7:30.`, { kind: 'social' })
+    this.emit('🌅', `${this.dayName}. Doors open at 8am.`, { kind: 'social' })
   }
 
   // ── agent stepping ──

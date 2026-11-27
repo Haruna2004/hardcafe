@@ -10,13 +10,11 @@ import { setMaxAniso } from './textures'
 export type Quality = 'high' | 'medium' | 'low'
 
 export function detectQuality(): Quality {
-  const ua = navigator.userAgent
-  const mobile = /Android|iPhone|iPad|iPod|Mobile/i.test(ua) || (navigator.maxTouchPoints > 1 && window.innerWidth < 1100)
-  const mem = (navigator as any).deviceMemory ?? 8
   const q = new URLSearchParams(location.search).get('q') as Quality | null
-  if (q) return q
-  if (mobile) return mem >= 6 ? 'medium' : 'low'
-  return 'high'
+  if (q === 'high' || q === 'medium' || q === 'low') return q
+  const ua = navigator.userAgent
+  const touch = /Android|iPhone|iPad|iPod|Mobile|CriOS|FxiOS/i.test(ua) || (navigator.maxTouchPoints > 1 && window.innerWidth < 1100)
+  return touch ? 'low' : 'high'
 }
 
 export class Renderer {
@@ -39,7 +37,7 @@ export class Renderer {
       stencil: false,
       preserveDrawingBuffer: new URLSearchParams(location.search).has('capture'),
     })
-    const maxDpr = quality === 'high' ? 2 : quality === 'medium' ? 1.5 : 1.25
+    const maxDpr = quality === 'high' ? 2 : quality === 'medium' ? 1.5 : 1.5
     r.setPixelRatio(Math.min(window.devicePixelRatio, maxDpr))
     r.setSize(container.clientWidth, container.clientHeight)
     r.shadowMap.enabled = true
@@ -57,7 +55,8 @@ export class Renderer {
       r.toneMapping = THREE.NoToneMapping
       const composer = new EffectComposer(r, { frameBufferType: THREE.HalfFloatType, multisampling: 0 })
       composer.addPass(new RenderPass(scene, camera))
-      if (quality === 'high' || quality === 'medium') {
+      const floatLinear = r.extensions.has('OES_texture_float_linear')
+      if ((quality === 'high' || quality === 'medium') && floatLinear) {
         const ao = new N8AOPostPass(scene, camera, container.clientWidth, container.clientHeight)
         ao.configuration.aoRadius = 1.1
         ao.configuration.distanceFalloff = 0.6

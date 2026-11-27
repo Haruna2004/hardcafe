@@ -1,6 +1,7 @@
 import { createRoot } from 'react-dom/client'
-import '@fontsource-variable/inter'
-import '@fontsource-variable/bricolage-grotesque'
+import '@fontsource/instrument-serif/400.css'
+import '@fontsource/instrument-serif/400-italic.css'
+import '@fontsource-variable/geist'
 import './ui/styles.css'
 import { App } from './ui/App'
 import { useUI } from './ui/store'
@@ -12,8 +13,16 @@ createRoot(ui).render(<App />)
 requestAnimationFrame(async () => {
   await document.fonts.ready.catch(() => {})
   const { Game } = await import('./engine/Game')
-  const game = new Game(document.getElementById('app')!)
+  let game
+  try {
+    game = new Game(document.getElementById('app')!)
+  } catch (e) {
+    console.error(e)
+    useUI.getState().set({ glLost: true })
+    return
+  }
   ;(window as any).game = game
+  ;(window as any).atoms = { game, Play: (await import('./play/Play')).Play, ui: useUI }
   game.pushUI(true)
   useUI.getState().set({ ready: true })
   const params = new URLSearchParams(location.search)

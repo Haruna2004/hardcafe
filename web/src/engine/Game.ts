@@ -9,7 +9,8 @@ import { roomAt, ROOM_BY_ID, type ZoneId } from '../data/layout'
 import type { WallMode } from '../world/Building'
 import { useUI } from '../ui/store'
 import { TOUR } from '../data/tour'
-import { LINES } from '../sim/brains'
+import { PlayDirector } from '../play/PlayDirector'
+import type { Play } from '../play/Play'
 
 export type Selection = { kind: 'agent'; id: string } | { kind: 'prop'; id: string } | { kind: 'room'; id: string } | null
 
@@ -43,7 +44,7 @@ export class Game {
   private hoverAgent: string | null = null
   private down: { x: number; y: number; t: number } | null = null
   private tourTimer = 0
-  private flicker = 0
+  director: PlayDirector
   private t = 0
   private highlight: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>
 
@@ -55,21 +56,15 @@ export class Game {
     this.lighting = new Lighting(this.scene, this.quality)
     this.world = new World(this.scene)
     this.sim = new Sim(this.world, this.scene)
-    this.sim.onOutage = (start) => this.onOutage(start)
+    this.director = new PlayDirector(this)
     this.rig.setShot(ZONE_SHOTS.street)
     // zone highlight plane
-    this.highlight = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ color: '#F2C230', transparent: true, opacity: 0.0, depthWrite: false }))
+    this.highlight = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ color: '#41A1CF', transparent: true, opacity: 0.0, depthWrite: false }))
     this.highlight.rotation.x = -Math.PI / 2
     this.highlight.position.y = 0.02
     this.highlight.renderOrder = 2
     this.scene.add(this.highlight)
-    // street: danfo drops people at the bus stop
-    for (const v of this.world.street.vehicles) {
-      if (v.kind === 'danfo') v.onStop = () => {
-        const conductor = ['Yaba! Yaba! Enter with your change o!', 'Sabo, Yaba, Ojuelegba!', 'Owa! (Stop!)']
-        void conductor
-      }
-    }
+    this.renderer.renderer.domElement.addEventListener('webglcontextlost', (e) => { e.preventDefault(); useUI.getState().set({ glLost: true }) })
     this.bindInput()
     this.lighting.setTime(this.sim.minute)
     this.loop()
@@ -204,10 +199,6 @@ export class Game {
     this.pushUI(true)
   }
 
-  triggerOutage() {
-    this.sim.triggerOutage()
-  }
-
   // Advance the simulation without rendering (used for screenshots / deep links).
   fastForward(minutes: number) {
     const target = this.sim.minute + minutes
@@ -225,16 +216,21 @@ export class Game {
     this.pushUI(true)
   }
 
-  private onOutage(start: boolean) {
-    if (start) this.flicker = 0.6
-    const present = this.sim.agents.filter((a) => !a.gone && a.checkedIn && a.info.role === 'member')
-    const lines = [...(start ? LINES.outage : LINES.restore)].sort(() => Math.random() - 0.5)
-    const who = [...present].sort(() => Math.random() - 0.5).slice(0, Math.min(3, lines.length))
-    who.forEach((a, i) => setTimeout(() => a.say(lines[i], 3.5), 300 + i * 700))
+  // ── play ──
+  startPlay(play: Play) {
+    this.rig.autoOrbit = 0
+    this.director.begin(play)
+  }
+
+  stopPlay() {
+    this.director.stop()
+    this.sim.reset(4, 9 * 60)
+    this.sim.speedIdx = 1
   }
 
   // ── tour ──
   startTour(i = 0) {
+    if (this.director.active) this.stopPlay()
     const ui = useUI.getState()
     ui.set({ mode: 'tour', tourIndex: i, dashboard: false })
     this.applyTourStop(i)
@@ -249,7 +245,6 @@ export class Game {
     if (stop.time !== undefined) this.jumpTo(stop.time)
     if (stop.speed !== undefined) this.sim.speedIdx = stop.speed
     this.rig.flyTo(stop.shot, stop.flyTime ?? 2.4, () => { if (stop.orbit) this.rig.autoOrbit = stop.orbit })
-    if (stop.action === 'outage') setTimeout(() => this.triggerOutage(), 1600)
     if (stop.action === 'drone') {
       const cage = this.world.byId.get('cage')
       if (cage && !cage.state.active) {
@@ -259,12 +254,12 @@ export class Game {
       }
     }
     if (stop.room) setTimeout(() => this.select({ kind: 'room', id: stop.room! }), 600)
-    if (stop.action === 'dashboard') useUI.getState().set({ dashboard: true })
     this.tourTimer = 0
     useUI.getState().set({ tourIndex: i })
   }
 
   endTour() {
+    if (this.director.active) this.stopPlay()
     useUI.getState().set({ mode: 'live', dashboard: false })
     this.rig.autoOrbit = 0
     this.world.building.setMode('cutaway')
@@ -280,10 +275,7 @@ export class Game {
     this.t += dt
     const sim = this.sim
     sim.update(dt, this.lighting.elevation, this.lighting.overcast)
-    if (this.flicker > 0) {
-      this.flicker -= dt
-      this.lighting.powerFlicker = this.flicker > 0.35 ? (Math.random() > 0.5 ? 0.9 : 0.2) : 0
-    } else this.lighting.powerFlicker = 0
+    this.director.update()
     this.lighting.setTime(sim.minute % 1440)
     this.rig.update(dt)
     this.world.building.update(dt, this.camera, this.rig.controls.target)

@@ -1,0 +1,15 @@
+[
+  {"file": "render-street", "kind": "render", "alt": "Golden-hour view of the Atoms building on a Yaba street, its glazed front under a black canopy revealing the café and glowing 3D printers, with palms, interlocking paving and a yellow danfo passing.", "caption": "The street front at golden hour"},
+  {"file": "render-cafe", "kind": "render", "alt": "Inside the Atoms café, a barista pours coffee at a slatted walnut bar while guests work on a laptop and a circuit board in front of a wall of glowing enclosed 3D printers.", "caption": "Café and the printer wall"},
+  {"file": "render-bench", "kind": "render", "alt": "Makers solder and test circuits at long timber workbenches with blue anti-static mats, oscilloscopes and power supplies in a skylit hall.", "caption": "The electronics bench hall"},
+  {"file": "render-fab", "kind": "render", "alt": "A technician in safety glasses lifts laser-cut plywood parts from a CO2 laser cutter while a colleague runs a 4x8 ft CNC router behind her.", "caption": "Fabrication shop, laser and CNC"},
+  {"file": "render-wetlab", "kind": "render", "alt": "Two scientists in lab coats and gloves pipette samples and prepare tubes at a white lab island, with a fume hood and biosafety cabinet behind them.", "caption": "The shared BSL-1 wet lab"},
+  {"file": "render-library", "kind": "render", "alt": "A staff member with a tablet guides a visitor to a labelled parts bin in an aisle of black metal shelving filled with component bins.", "caption": "Finding parts in the library"},
+  {"file": "render-drone", "kind": "render", "alt": "A pilot flies a small quadcopter inside a netted flight cage while two colleagues watch telemetry on a laptop cart.", "caption": "Test flight in the drone cage"},
+  {"file": "render-demo", "kind": "render", "alt": "At Friday demo night, a presenter shows a small robotic arm on the café stage to an audience under warm string lights.", "caption": "Friday evening demo night"},
+  {"file": "render-aerial", "kind": "render", "alt": "Aerial dusk view of the Atoms building with solar panels on its roof and a glowing glass front, set among low-rise Yaba rooftops with danfos and kekes on the road.", "caption": "Aerial view of Atoms at dusk"},
+  {"file": "paint-hero", "kind": "paint", "alt": "Painted dawn streetscape in Yaba with palm trees, power lines and a low building whose windows glow warm beneath a wide pale sky.", "caption": "Yaba at dawn"},
+  {"file": "paint-hero-portrait", "kind": "paint", "alt": "Tall painted view of a Yaba street at dawn, a warmly lit low building and palms beneath a vast soft blue sky.", "caption": "Yaba at dawn, portrait"},
+  {"file": "paint-bench", "kind": "paint", "alt": "Painted still life of a workbench at night with a soldering iron, small circuit board, solder and an enamel coffee cup under a warm lamp, a starry sky beyond the window.", "caption": "A late night at the bench"},
+  {"file": "paint-lagoon", "kind": "paint", "alt": "Painted twilight view across the Lagos lagoon, a fisherman casting a net from a canoe near stilt houses, with a bridge and the mainland lights on the horizon.", "caption": "Twilight across the lagoon"}
+]

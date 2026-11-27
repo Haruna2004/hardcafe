@@ -4,7 +4,7 @@ import { Character, type Held, type Look } from './Character'
 import type { AnimName } from '../world/props/common'
 import type { WorldSlot, PropInstance } from '../world/props'
 
-export type Role = 'member' | 'staff' | 'public' | 'shopper' | 'kid' | 'parent'
+export type Role = 'member' | 'staff' | 'public' | 'shopper' | 'kid' | 'parent' | 'player'
 
 export type Step =
   | { k: 'go'; x: number; z: number; slot?: WorldSlot | null; run?: boolean; carry?: boolean }
@@ -91,7 +91,10 @@ export class Agent {
     this.char.root.add(this.tag)
   }
 
-  say(text: string, sec = 4) {
+  static live = 0
+  say(text: string, sec = 4, force = false) {
+    if (!force && (Agent.live >= 2 || this.bubbleT > 0)) return
+    if (this.bubbleT <= 0) Agent.live++
     this.bubbleEl.textContent = text
     this.bubble.visible = true
     this.bubbleT = sec
@@ -138,7 +141,7 @@ export class Agent {
     void simDt
     if (this.bubbleT > 0) {
       this.bubbleT -= dt
-      if (this.bubbleT <= 0) this.bubble.visible = false
+      if (this.bubbleT <= 0) { this.bubble.visible = false; Agent.live = Math.max(0, Agent.live - 1) }
     }
     if (this.selectedRing) {
       this.selectedRing.position.set(this.x, 0.03, this.z)

@@ -4,6 +4,35 @@ import type { Ticker } from '../sim/Sim'
 import type { Stream } from '../data/pricing'
 import { ROOM_BY_ID } from '../data/layout'
 import { TEAMS } from '../data/cast'
+import { DAY, fmt, type Moment } from '../play/Play'
+import { SKILLS, LEVELS, levelOf, type PlaceId } from '../play/content'
+
+export interface PlaySnap {
+  name: string
+  look: string
+  projectName: string
+  sector: string
+  pitch: string
+  steps: { id: string; label: string; done: boolean }[]
+  money: number
+  energy: number
+  fed: number
+  mood: { label: string; tone: 'good' | 'ok' | 'low' }
+  day: string
+  dayNo: number
+  time: string
+  goal: { text: string; place: PlaceId }
+  current: { verb: string; progress: number; left: number } | null
+  skills: { id: string; name: string; level: number; pct: number }[]
+  progress: number
+  rep: number
+  access: boolean
+  ended: boolean
+  raised: number
+  grant: number
+}
+export interface Toast extends Moment { id: number; at: number }
+let toastId = 1
 
 export interface SelView {
   kind: 'agent' | 'prop' | 'room'
@@ -60,7 +89,12 @@ export interface Snap {
 
 interface UIState {
   ready: boolean
-  mode: 'intro' | 'tour' | 'live'
+  mode: 'intro' | 'tour' | 'live' | 'play'
+  modal: 'setup' | 'morning' | 'recap' | 'end' | 'contact' | null
+  sheet: PlaceId | null
+  glLost: boolean
+  play: PlaySnap | null
+  toasts: Toast[]
   tourIndex: number
   autoplay: boolean
   dashboard: boolean
@@ -82,6 +116,11 @@ const fmtMin = (m: number) => {
 export const useUI = create<UIState>((set, get) => ({
   ready: false,
   mode: 'intro',
+  modal: null,
+  sheet: null,
+  glLost: false,
+  play: null,
+  toasts: [],
   tourIndex: 0,
   autoplay: true,
   dashboard: false,
@@ -180,7 +219,30 @@ export const useUI = create<UIState>((set, get) => ({
         }
       }
     }
-    set({ snap, sel, game: g })
+    let play: PlaySnap | null = null
+    const toasts = get().toasts.filter((t) => performance.now() - t.at < 5200)
+    const P = g.director.active ? g.director.play : null
+    if (P) {
+      const st = P.s
+      const a = s.player
+      let current: PlaySnap['current'] = null
+      if (P.current && a && !a.gone) {
+        const stp = a.step
+        const prog = stp && stp.k === 'act' ? Math.min(1, a.stepT / stp.min) : 0
+        const left = stp && stp.k === 'act' ? Math.max(0, stp.min - a.stepT) : P.current.minutes
+        current = { verb: P.current.verb, progress: prog, left }
+      }
+      play = {
+        name: st.name, look: st.look, projectName: P.project.name, sector: P.project.sector, pitch: P.project.pitch,
+        steps: P.project.steps.map((x) => ({ id: x.id, label: x.label, done: st.steps.includes(x.id) })),
+        money: st.money, energy: st.energy, fed: st.fed, mood: P.mood, day: DAY[st.day % 7], dayNo: st.day + 1,
+        time: fmt(s.minute % 1440), goal: P.goal(), current,
+        skills: SKILLS.map((k) => { const xp = st.xp[k.id]; const lv = levelOf(xp); const lo = LEVELS[lv - 1] ?? 0; const hi = LEVELS[lv] ?? lo + 300; return { id: k.id, name: k.name, level: lv, pct: Math.min(1, (xp - lo) / (hi - lo)) } }),
+        progress: st.progress, rep: st.rep, access: P.hasAccess, ended: st.ended, raised: st.raised, grant: st.grant,
+      }
+      while (P.moments.length) toasts.push({ ...P.moments.shift()!, id: toastId++, at: performance.now() })
+    }
+    set({ snap, sel, game: g, play, toasts: toasts.slice(-4) })
     void get
   },
 }))

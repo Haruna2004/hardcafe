@@ -20,8 +20,6 @@ const LINES = {
   coffee: ['One cappuccino abeg', 'Kemi, the usual!', 'Make it strong today', 'Chapman please, cold'],
   lunch: ['Jollof time 🍛', 'Abeg, extra plantain', 'I deserve this one'],
   chat: ['How did the field test go?', 'Your PCB don come back?', 'Try a 10k pull-up there', 'Show me the enclosure!', 'Investor call went well 👀'],
-  outage: ['Light don go? …oh, we still get light 😅', 'NEPA strikes again!', 'Inverter don carry am. No wahala.', 'Ah, my print no even pause!'],
-  restore: ['Up NEPA! ⚡', 'Light don come!'],
   print: ['Printing the enclosure, v3', 'Overnight print loading…', 'PLA or PETG? PETG for the sun.'],
   laser: ['Cutting the acrylic lid', 'Engraving the logo'],
   cnc: ['Cutting the frame plates', 'Spindle on. Ear defenders on.'],
@@ -58,9 +56,9 @@ function* arrive(s: Sim, a: Agent, payable: () => void): Brain {
   payable()
   s.checkins++
   a.checkedIn = true
-  if (Math.random() < 0.4) a.say(pick(LINES.arrive), 3)
+  if (Math.random() < 0.12) a.say(pick(LINES.arrive), 3)
   const host = s.byId.get('bola')
-  if (host && !host.gone && Math.random() < 0.5) host.say(`Welcome, ${first(a)}!`, 2.5)
+  if (host && !host.gone && Math.random() < 0.15) host.say(`Welcome, ${first(a)}!`, 2.5)
   yield* go(a, POINTS.gateIn[0], POINTS.gateIn[1])
 }
 
@@ -141,7 +139,7 @@ function* homeWork(s: Sim, a: Agent, anim: AnimName, minA: number, minB: number,
   }
   if (!seat) { yield { k: 'wait', min: 3 }; return }
   yield* goSlot(s, a, seat)
-  if (Math.random() < 0.15) a.say(pick(LINES.solder), 3)
+  if (Math.random() < 0.05) a.say(pick(LINES.solder), 3)
   yield { k: 'act', anim, min: rand(minA, minB), label, progress: () => { a.progress = Math.min(1, a.progress + 0.0004) } }
 }
 
@@ -188,7 +186,7 @@ function* print3d(s: Sim, a: Agent): Brain {
   if (s.jobs.some((j) => j.owner === a && !j.collected)) return
   const slot = s.slotFor('printer', a, (x) => !x.prop.state.active && x.prop.state.progress === 0 && !x.prop.state.fault)
   if (!slot) return
-  if (Math.random() < 0.4) a.say(pick(LINES.print), 3)
+  if (Math.random() < 0.1) a.say(pick(LINES.print), 3)
   yield* use(s, a, slot, 3, 'Starting a 3D print', 'standUse')
   s.startPrint(slot.prop, a)
 }
@@ -592,12 +590,6 @@ function labManagerBrain(c: CastMember) {
     yield* go(a, POINTS.entrance[0], POINTS.entrance[1])
     yield* go(a, POINTS.gateIn[0], POINTS.gateIn[1])
     while (s.minute % 1440 < c.leave) {
-      if (!s.power.grid && Math.random() < 0.5) {
-        a.doing = 'Checking the power room'
-        const inv = s.world.slots.find((x) => x.kind === 'powerCheck')
-        if (inv) yield* use(s, a, inv, 4, 'Checking inverters during the outage', 'standType')
-        continue
-      }
       if (s.demo.active) { yield* demoNight(s, a); continue }
       const r = Math.random()
       if (r < 0.55) yield* mentorRounds(s, a)
