@@ -162,12 +162,12 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 400; color: var(--graphite)
 .round { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; color: var(--graphite); }
 .ff { font-size: 12px; color: var(--blue-ink); background: var(--glass); padding: 4px 10px; border-radius: 50px; border: 1px solid var(--mist); }
 
-.sheet { position: fixed; right: 14px; top: 140px; bottom: 14px; width: min(420px, calc(100vw - 28px)); border-radius: 20px; display: flex; flex-direction: column; background: rgba(254, 255, 252, 0.95); animation: rise .25s ease; z-index: 20; }
+.sheet { position: fixed; right: 14px; top: 140px; max-height: calc(100vh - 154px); width: min(420px, calc(100vw - 28px)); border-radius: 20px; display: flex; flex-direction: column; background: rgba(254, 255, 252, 0.95); animation: rise .25s ease; z-index: 20; }
 .sheet-head { display: flex; gap: 12px; align-items: flex-start; padding: 20px 52px 16px 20px; border-bottom: 1px solid var(--mist); }
 .ic.big { width: 22px; height: 22px; margin-top: 6px; color: var(--graphite); }
 .sheet-head h3 { font-size: 30px; line-height: 1.05; }
 .sheet-head p { margin: 4px 0 0; font-size: 13px; color: var(--ash); }
-.rows { overflow: auto; padding: 8px; display: grid; gap: 6px; align-content: start; }
+.rows { overflow: auto; min-height: 0; padding: 8px; display: grid; gap: 6px; align-content: start; }
 .act { display: flex; flex-direction: column; gap: 8px; text-align: left; padding: 14px; border-radius: 12px; border: 1px solid var(--mist); background: var(--paper); transition: border-color .15s, transform .1s; }
 .act:hover:not(:disabled) { border-color: var(--graphite); }
 .act:active:not(:disabled) { transform: scale(0.99); }
