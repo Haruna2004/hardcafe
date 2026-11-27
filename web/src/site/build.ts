@@ -1,15 +1,11 @@
-import '@fontsource-variable/geist'
-import '@fontsource/instrument-serif/400.css'
-import './site.css'
-import { planSVG, ACCESS_LABEL } from './plan'
-import { ROOMS } from '../data/layout'
+import { mountChrome, mountContact, CONTACT_HTML } from './shared'
 import { capex, project, FX, type Options } from '../data/model'
 
 const $ = <T extends HTMLElement = HTMLElement>(s: string) => document.querySelector(s) as T
 const N = (n: number) => '₦' + Math.round(n).toLocaleString('en-NG')
 const NS = (n: number) => {
   const a = Math.abs(n)
-  const sign = n < 0 ? '−' : ''
+  const sign = n < 0 ? '-' : ''
   if (a >= 1e9) return sign + '₦' + (a / 1e9).toFixed(2) + 'bn'
   if (a >= 1e6) return sign + '₦' + (a / 1e6).toFixed(1) + 'm'
   if (a >= 1e3) return sign + '₦' + Math.round(a / 1e3) + 'k'
@@ -17,17 +13,9 @@ const NS = (n: number) => {
 }
 const USD = (n: number) => '$' + (n >= 1e6 ? (n / 1e6).toFixed(2) + 'M' : Math.round(n / 1000) + 'k')
 
-// ── plan ──
-$('#plan-svg').innerHTML = planSVG()
-const legend = $('#plan-legend')
-legend.innerHTML = ROOMS.filter((r) => !['labstreet', 'westhall', 'wc', 'prayer'].includes(r.id))
-  .map((r) => `<div class="lg" data-room="${r.id}"><span class="sw" style="background:${r.accent}"></span><b>${r.name}</b><span>${(r.rect.w * r.rect.d).toFixed(0)} m² · ${ACCESS_LABEL[r.access]}</span></div>`)
-  .join('')
-legend.addEventListener('mouseover', (e) => {
-  const id = (e.target as HTMLElement).closest('.lg')?.getAttribute('data-room')
-  document.querySelectorAll('.plan .room').forEach((el) => el.classList.toggle('hl', el.getAttribute('data-room') === id))
-})
-legend.addEventListener('mouseleave', () => document.querySelectorAll('.plan .room').forEach((el) => el.classList.remove('hl')))
+document.getElementById('contact-slot')!.outerHTML = CONTACT_HTML
+mountChrome('Build')
+mountContact()
 
 // ── numbers ──
 const opts: Options = { space: 'partner', power: 'lease', scope: 'full', case: 'base' }
@@ -42,7 +30,7 @@ document.querySelectorAll<HTMLButtonElement>('.toggle button').forEach((b) => {
 function bars(rows: [string, number, string?][], fmt: (n: number) => string, cls = '') {
   const max = Math.max(1, ...rows.map((r) => r[1]))
   return `<div class="hbars ${cls}">${rows
-    .map(([k, v, note]) => `<div class="hb" title="${k}: ${fmt(v)}${note ? ' · ' + note : ''}"><span class="hl">${k}</span><span class="ht"><span class="hf" style="width:${(v / max) * 100}%"></span></span><span class="hv">${fmt(v)}</span></div>`)
+    .map(([k, v, note]) => `<div class="hb" title="${k}: ${fmt(v)}${note ? ', ' + note : ''}"><span class="l">${k}</span><span class="t"><span class="f" style="width:${(v / max) * 100}%"></span></span><span class="v">${fmt(v)}</span></div>`)
     .join('')}</div>`
 }
 
@@ -86,14 +74,11 @@ function render() {
   const groups: Record<string, number> = {}
   for (const l of capex(opts)) groups[l.group] = (groups[l.group] ?? 0) + l.usd
   $('#use-funds').innerHTML = bars(Object.entries(groups).sort((a, b) => b[1] - a[1]).map(([k, v]) => [k, v]), (n) => USD(n))
-  $('#capex-lines').innerHTML = capex(opts).map((l) => `<tr><td>${l.group}</td><td>${l.label}${l.note ? `<small>${l.note}</small>` : ''}</td><td>${USD(l.usd)}</td></tr>`).join('')
+  $('#capex-lines').innerHTML = capex(opts).map((l) => `<tr><td>${l.label}${l.note ? `<small>${l.note.replace(/≈/g, 'about ')}</small>` : ''}</td><td>${USD(l.usd)}</td></tr>`).join('')
   $('#rev-mix').innerHTML = bars(Object.entries(m.byStream).sort((a, b) => b[1] - a[1]).map(([k, v]) => [k, v]), NS)
   $('#opex-lines').innerHTML = bars(Object.entries(p.opexLines).sort((a, b) => b[1] - a[1]).map(([k, v]) => [k, v]), NS, 'muted')
 }
 render()
 
-// ── location scorecard ──
-const loc: [string, number][] = [['Yaba', 4.4], ['Ebute-Metta / Oyingbo', 3.55], ['Ikeja', 3.15], ['Surulere', 3.1], ['Lekki', 2.45], ['Victoria Island', 2.1]]
-$('#loc-bars').innerHTML = bars(loc, (n) => n.toFixed(2) + ' / 5')
 
 void N

@@ -268,10 +268,16 @@ export class Game {
   }
 
   // ── loop ──
+  /** set true to drive frames by hand with frame(dt), used for trailer capture */
+  manual = false
   private loop = () => {
     requestAnimationFrame(this.loop)
     this.clock.update()
-    const dt = Math.min(0.05, this.clock.getDelta())
+    if (this.manual) return
+    this.frame(Math.min(0.05, this.clock.getDelta()))
+  }
+
+  frame(dt: number) {
     this.t += dt
     const sim = this.sim
     sim.update(dt, this.lighting.elevation, this.lighting.overcast)

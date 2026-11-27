@@ -20,23 +20,23 @@ export function capex(o: Options): Line[] {
   const add = (group: string, label: string, usd: number, note?: string) => L.push({ group, label, usd: Math.round(usd), note })
   // Equipment (list price × landed factor)
   add('Equipment', full ? 'Print farm: 16 FDM + 2 resin printers' : 'Print farm: 10 FDM + 1 resin printer', (full ? 16 * 1203 + 2 * 2625 + 1000 : 10 * 1203 + 2625 + 500) * LANDED, 'Prusa CORE One+ $1,203; Form 4 $2,625')
-  add('Equipment', full ? 'Fabrication: CO₂ + desktop laser, 4×8 CNC, Carvera, SMT, saws' : 'Fabrication: CO₂ + desktop laser, Carvera, hand tools', (full ? 7000 + 3000 + 9000 + 5269 + 3300 + 5900 + 1500 : 7000 + 3000 + 5269 + 3500 + 1000) * LANDED, 'OMTech 100W $7k; xTool P2S $3k; Carvera $5.3k; 4×8 router ≈$9k (E)')
+  add('Equipment', full ? 'Fabrication: CO₂ + desktop laser, 4×8 CNC, Carvera, SMT, saws' : 'Fabrication: CO₂ + desktop laser, Carvera, hand tools', (full ? 7000 + 3000 + 9000 + 5269 + 3300 + 5900 + 1500 : 7000 + 3000 + 5269 + 3500 + 1000) * LANDED, 'OMTech 100W $7k; xTool P2S $3k; Carvera $5.3k; 4×8 router about $9k, estimate')
   add('Equipment', full ? 'Electronics: 24 seats (scope + supply per pair, iron per seat)' : 'Electronics: 16 seats', (full ? 12 * 908 + 24 * 310 + 4000 : 8 * 908 + 16 * 310 + 2500) * LANDED + (full ? 4800 : 3200), 'Rigol DHO804 $459; DP832 $449; Hakko $130')
-  add('Equipment', full ? 'Wet lab (BSL-1): hood, BSC, PCR, centrifuges, autoclave, cold storage' : 'Wet lab starter: refurbished hood + BSC, PCR, centrifuge, cold storage', (full ? 34600 : 21000) * LANDED, 'Refurbished hood/BSC assumed (E)')
-  if (full) add('Equipment', 'Drone flight cage (6×6×4 m)', 4000, '(E)')
+  add('Equipment', full ? 'Wet lab (BSL-1): hood, BSC, PCR, centrifuges, autoclave, cold storage' : 'Wet lab starter: refurbished hood + BSC, PCR, centrifuge, cold storage', (full ? 34600 : 21000) * LANDED, 'Refurbished hood and BSC assumed, estimate')
+  if (full) add('Equipment', 'Drone flight cage (6×6×4 m)', 4000, 'Estimate')
   add('Equipment', 'IT: Starlink + fibre, Wi-Fi, access control, CAD PCs, kiosk', full ? 13000 : 9000)
   // Fit-out
-  add('Fit-out', 'Partitions, glazing, flooring, paint', full ? 42000 : 30000, '(E) light conversion of an existing warehouse')
-  add('Fit-out', 'Electrical upgrade, extraction, wet-lab plumbing, fire safety', full ? 33000 : 24000, '(E)')
-  add('Fit-out', 'Furniture + café equipment', full ? 16000 : 12000, '(E)')
+  add('Fit-out', 'Partitions, glazing, flooring, paint', full ? 42000 : 30000, 'Estimate, light conversion of an existing warehouse')
+  add('Fit-out', 'Electrical upgrade, extraction, wet-lab plumbing, fire safety', full ? 33000 : 24000, 'Estimate')
+  add('Fit-out', 'Furniture + café equipment', full ? 16000 : 12000, 'Estimate')
   // Power
   if (o.power === 'own') add('Power', full ? 'Solar 30 kWp + 60 kWh LFP + inverters' : 'Solar 20 kWp + 40 kWh LFP + inverters', ((full ? 30 : 20) * 1.3e6 + (full ? 60 : 40) * 315000) / FX, '₦1.3m/kWp; ₦315k/kWh')
-  add('Power', 'Standby generator (refurbished 60 kVA) + changeover', 9000, '(E)')
+  add('Power', 'Standby generator (refurbished 60 kVA) + changeover', 9000, 'Estimate')
   // Space
   if (o.space === 'lease') {
     const m2 = full ? 1120 : 800
     const rent = m2 * 55000
-    add('Space', `Year-1 rent prepaid (${m2} m² × ₦55k), legal max 1 yr`, rent / FX, 'Yaba ₦50k–127k/m²/yr')
+    add('Space', `Year-1 rent prepaid (${m2} m² × ₦55k), legal max 1 yr`, rent / FX, 'Yaba ₦50k to ₦127k per m² a year')
     add('Space', 'Agency + legal + caution (30% of rent)', (rent * 0.3) / FX, 'Lagos norms 10% each')
   }
   // Launch
@@ -76,7 +76,7 @@ export function opexMonthly(o: Options) {
     [o.space === 'lease' ? 'Rent + service charge' : 'Service charge (partner space)']: rent,
     [o.power === 'own' ? 'Power: grid + diesel top-up' : 'Power: solar lease + grid + diesel']: power,
     'Internet (Starlink + fibre)': 292_000,
-    'Maintenance & spares (≈12%/yr of kit)': full ? 2_030_000 : 1_400_000,
+    'Maintenance and spares, about 12% of kit a year': full ? 2_030_000 : 1_400_000,
     'Software, AI tools, insurance': 900_000,
     'Marketing, events, community': 600_000,
     'Cleaning, waste, admin': 800_000,
@@ -115,10 +115,10 @@ export function project(o: Options, months = 48) {
 }
 
 export const IMPACT = [
-  ['Builders with daily access', '≈120 members + 250 day-pass users/yr'],
-  ['Students getting hands-on hours', '≈400/yr (university practicals, bootcamps)'],
-  ['Kids in robotics classes', '≈100/yr'],
-  ['Hardware teams supported', '15–25/yr, 2 resident studios'],
+  ['Builders with daily access', 'About 120 members and 250 day-pass users a year'],
+  ['Students getting hands-on hours', 'About 400 a year, from practicals and bootcamps'],
+  ['Kids in robotics classes', 'About 100 a year'],
+  ['Hardware teams supported', '15 to 25 a year, 2 resident studios'],
   ['Direct jobs', '14 (6 of them non-technical roles trained on the AI tools)'],
-  ['Diesel avoided by solar + battery', '≈1,000 L/month vs a generator-only site (E)'],
+  ['Diesel avoided by solar + battery', 'About 1,000 L a month against a generator-only site'],
 ] as const

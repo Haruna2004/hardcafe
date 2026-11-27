@@ -86,7 +86,7 @@ function* coffee(s: Sim, a: Agent, item: 'coffee' | 'jollof' | 'snack' = 'coffee
   if (Math.random() < 0.5) a.say(item === 'jollof' ? pick(LINES.lunch) : pick(LINES.coffee), 3)
   yield { k: 'until', cond: () => order.served, anim: 'idle', maxMin: 8 }
   const price = item === 'jollof' ? PRICES.jollof : item === 'snack' ? PRICES.snack : PRICES.coffee
-  s.earn('cafe', price, `${first(a)} — ${item === 'jollof' ? 'jollof + chicken' : item === 'snack' ? 'meat pie' : 'coffee'}`, item === 'jollof' ? '🍛' : '☕', a)
+  s.earn('cafe', price, `${first(a)}, ${item === 'jollof' ? 'jollof + chicken' : item === 'snack' ? 'meat pie' : 'coffee'}`, item === 'jollof' ? '🍛' : '☕', a)
   if (item === 'coffee') a.needs.energy = Math.min(1, a.needs.energy + 0.4)
   else { a.needs.hunger = 0.05; a.needs.energy = Math.min(1, a.needs.energy + 0.15) }
   const held = item === 'jollof' ? 'plate' : 'cup'
@@ -198,7 +198,7 @@ function* machine(s: Sim, a: Agent, kind: string, minA: number, minB: number, la
   const min = rand(minA, minB)
   yield* use(s, a, slot, min, label, undefined, true)
   if (a.slot === slot) {
-    s.earn('machines', priceFn(min), `${first(a)} — ${label.toLowerCase()}`, kind === 'laser' ? '🔥' : '⚙️', a)
+    s.earn('machines', priceFn(min), `${first(a)}, ${label.toLowerCase()}`, kind === 'laser' ? '🔥' : '⚙️', a)
     if (Math.random() < 0.08) s.openTicket(slot.prop, kind === 'laser' ? 'lens power down 18%. Clean optics' : 'spindle vibration above baseline', kind === 'laser' ? 'Wipe lens + mirror 2 with IPA (photo guide, 6 steps).' : 'Check collet tightness, re-seat bit (video, 4 min).')
   }
 }
@@ -215,7 +215,7 @@ function* droneTest(s: Sim, a: Agent): Brain {
   const min = rand(12, 20)
   yield { k: 'act', anim: 'phone', min, prop: cage, held: 'controller', label: 'Test flight in the cage' }
   a.char.hold('none')
-  s.earn('machines', (min / 60) * PRICES.droneCagePerHour, `${first(a)} — drone cage`, '🛸', a)
+  s.earn('machines', (min / 60) * PRICES.droneCagePerHour, `${first(a)}, drone cage`, '🛸', a)
 }
 
 function* wetlab(s: Sim, a: Agent, steps = 3): Brain {
@@ -225,7 +225,7 @@ function* wetlab(s: Sim, a: Agent, steps = 3): Brain {
   yield { k: 'act', anim: 'reach', min: 1, label: 'Putting on lab coat' }
   a.char.look.labCoat = true
   a.char.setLook(a.char.look)
-  if (a.info.plan?.includes('day pass')) s.earn('lab', PRICES.wetBenchDay, `${first(a)} — wet-lab bench day`, '🧪', a)
+  if (a.info.plan?.includes('day pass')) s.earn('lab', PRICES.wetBenchDay, `${first(a)}, wet-lab bench day`, '🧪', a)
   if (Math.random() < 0.5) a.say(pick(LINES.wet), 3)
   const menu: [string, number, number, string][] = [
     ['labIsland', 18, 35, 'Pipetting samples'], ['bsc', 15, 30, 'Sterile work in the biosafety cabinet'], ['centrifuge', 6, 10, 'Spinning samples'],
@@ -322,9 +322,9 @@ function memberBrain(c: CastMember) {
   return function* (s: Sim, a: Agent): Brain {
     const p = a.info.plan ?? ''
     yield* arrive(s, a, () => {
-      if (p.includes('Student day')) s.earn('passes', PRICES.studentDay, `${first(a)} — student day pass`, '🎟️', a)
-      else if (p === 'Day pass') s.earn('passes', PRICES.dayPass, `${first(a)} — day pass`, '🎟️', a)
-      else if (p.includes('Miva')) s.earn('training', 6000, `${first(a)} — Miva practical session (sponsored)`, '🎓', a)
+      if (p.includes('Student day')) s.earn('passes', PRICES.studentDay, `${first(a)}, student day pass`, '🎟️', a)
+      else if (p === 'Day pass') s.earn('passes', PRICES.dayPass, `${first(a)}, day pass`, '🎟️', a)
+      else if (p.includes('University')) s.earn('training', 6000, `${first(a)}, university practical session (sponsored)`, '🎓', a)
       else s.emit('🎟️', `${first(a)} checked in (${p})`, { kind: 'social' })
     })
     const persona = a.info.persona as Persona
@@ -437,7 +437,7 @@ function shopperBrain() {
       a.say(pick(['Una get ESP32?', 'I need relay module, 4 channel', 'How much for the Pi?', 'Abeg, original ones only']), 3)
       yield { k: 'act', anim: 'talk', min: rand(3, 6), label: 'Asking about parts' }
       const amt = Math.round(rand(6, 70)) * 1000
-      s.earn('parts', amt, `${first(a)} — walk-in parts purchase`, '🛍️', a)
+      s.earn('parts', amt, `${first(a)}, walk-in parts purchase`, '🛍️', a)
       const clerk = s.byId.get('ife')
       if (clerk && !clerk.gone) clerk.say('Tested and working. Thank you!', 2.5)
     }

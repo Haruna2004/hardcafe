@@ -63,7 +63,7 @@ export class Lighting {
     scene.add(this.sky)
     scene.fog = new THREE.Fog('#D7E8F2', 90, 300)
 
-    // warm interior fill lights (no shadows) — fade in at night
+    // warm interior fill lights (no shadows) - fade in at night
     const spots: [number, number, number, string, number][] = [
       [17, 2.8, 24, '#ffcf8a', 14], [27, 2.8, 24, '#ffcf8a', 14], [20, 3.0, 15, '#fff4e0', 16], [28, 3.0, 15, '#fff4e0', 14],
       [17, 3.0, 4.5, '#fff1db', 16], [5, 3.0, 4.5, '#eafffb', 12], [35.5, 3.0, 15.5, '#f1ecff', 10], [4, 3.0, 15.5, '#ffe9d0', 10],

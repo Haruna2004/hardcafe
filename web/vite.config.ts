@@ -12,6 +12,8 @@ export default defineConfig({
       input: {
         main: r('./index.html'),
         sim: r('./sim/index.html'),
+        build: r('./build/index.html'),
+        landscape: r('./landscape/index.html'),
       },
     },
   },

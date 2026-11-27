@@ -178,10 +178,10 @@ export class Sim {
       for (let i = 0; i < 12; i++) {
         const seed = 500 + i * 13 + this.day
         const kid = randomPerson(seed, 'kid')
-        const info: AgentInfo = { id: `k${i}`, name: kid.name, role: 'kid', title: 'Robotics Saturday', persona: 'kid', look: kid.look, bio: 'Age 9–13. Building a line-following robot.' }
+        const info: AgentInfo = { id: `k${i}`, name: kid.name, role: 'kid', title: 'Robotics Saturday', persona: 'kid', look: kid.look, bio: 'Age 9 to 13. Building a line-following robot.' }
         const c: CastMember = { id: info.id, name: kid.name, title: '', persona: 'kid', bio: '', plan: '', arrive: m, leave: 12 * 60 + 10, look: {}, seed }
         this.spawn(info, [POINTS.spawnWest[0] - i * 0.6, POINTS.spawnWest[1]], brainFor('kid', c))
-        this.earn('training', PRICES.kidsSession, `${kid.name} — Robotics Saturday`, '🤖')
+        this.earn('training', PRICES.kidsSession, `${kid.name}, Robotics Saturday`, '🤖')
       }
     }
   }
@@ -233,7 +233,7 @@ export class Sim {
       total += it.sku.price * it.qty
       if (it.sku.stock <= it.sku.min) this.emit('🤖', `AI: ${it.sku.name} below ${it.sku.min}. Draft PO sent to supplier for approval.`, { kind: 'ai' })
     }
-    this.earn('parts', total, `${r.member.info.name.split(' ')[0]} — parts from the library`, '🔩', r.member)
+    this.earn('parts', total, `${r.member.info.name.split(' ')[0]}, parts from the library`, '🔩', r.member)
     r.member.waiting = false
   }
 
@@ -261,7 +261,7 @@ export class Sim {
     prop.state.fault = false
     const job: PrintJob = { prop, owner, start: this.minute, end: this.minute + dur, grams, collected: false }
     this.jobs.push(job)
-    this.earn('machines', grams * PRICES.print3dPerGram, `${owner.info.name.split(' ')[0]} — 3D print (${grams} g)`, '🖨️', owner)
+    this.earn('machines', grams * PRICES.print3dPerGram, `${owner.info.name.split(' ')[0]}, 3D print (${grams} g)`, '🖨️', owner)
     if (Math.random() < 0.12) setTimeout(() => this.openTicket(prop, 'spaghetti detected on camera, job paused', 'Clear the bed, swap the 0.4 mm nozzle (video, 3 min), resume from layer.'), 400)
     return job
   }

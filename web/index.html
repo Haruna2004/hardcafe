@@ -2,199 +2,130 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="robots" content="noindex" />
-    <meta name="theme-color" content="#15171B" />
-    <title>Forge Lagos · A hardware café, makerspace and lab for Yaba</title>
-    <meta name="description" content="A proposal for Lagos's first hardware café: coffee, a fully-kitted makerspace, a parts library and a shared wet lab, run by a small team with AI tools." />
-    <meta property="og:title" content="Forge Lagos: where Lagos builds hardware" />
-    <meta property="og:description" content="Walk through a playable 3D model of the lab, then see the floor plan and the numbers." />
-    <meta property="og:image" content="/img/og.jpg" />
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M20 2 L24 16 L38 20 L24 24 L20 38 L16 24 L2 20 L16 16 Z' fill='%23F2C230'/%3E%3C/svg%3E" />
+    <meta name="theme-color" content="#FEFFFC" />
+    <title>Atoms · A café where Lagos builds hardware</title>
+    <meta name="description" content="Atoms is a café, a workshop and a shared lab in Yaba, Lagos. Walk in for coffee. Stay to build." />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Atoms · A café where Lagos builds hardware" />
+    <meta property="og:description" content="Step inside a café, workshop and lab in Yaba. Play the sim, see the plan." />
+    <meta property="og:image" content="https://atomslab.harunafaruk.com/img/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="preload" as="image" href="/img/gen/paint-hero.webp" />
   </head>
   <body>
     <header class="hero">
-      <img class="hero-img" src="/img/overview.webp" alt="Cutaway 3D view of the lab: café at the front, bench hall, print wall, fabrication shop, wet lab and drone cage" />
-      <nav class="nav">
-        <a class="logo" href="#"><svg width="22" height="22" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 2 L24 16 L38 20 L24 24 L20 38 L16 24 L2 20 L16 16 Z" fill="#F2C230"/></svg><b>FORGE</b><span>LAGOS</span></a>
-        <div class="nav-links"><a href="#inside">Inside</a><a href="#plan">Plan</a><a href="#numbers">Numbers</a><a href="#yaba">Location</a><a class="nav-cta" href="/sim/?tour">Enter the lab</a></div>
-      </nav>
-      <div class="hero-copy">
-        <div class="kicker">A proposal for Yaba, Lagos · November 2026</div>
+      <img src="/img/gen/paint-hero.webp" alt="Painted dawn over a Yaba street, palm trees and a low building with warm glowing windows" />
+      <div class="clock" id="clock"></div>
+      <div class="overlay">
         <h1>A café where Lagos builds hardware.</h1>
-        <p>Coffee at the front. Behind the glass: 24 kitted electronics seats, a wall of 3D printers, lasers and a CNC, a parts library, a drone cage and Lagos’s first shared wet lab. Run by a small team with AI tools.</p>
-        <div class="cta-row">
-          <a class="btn primary" href="/sim/?tour">▶ Walk through the 3D lab</a>
-          <a class="btn glass" href="#numbers">See the numbers</a>
+        <p>Atoms is a café, a workshop and a shared lab in Yaba. Walk in for coffee. Stay to build.</p>
+        <div class="actions">
+          <a class="btn light" href="/sim/?tour">Step inside</a>
+          <a class="btn glass" href="/sim/">Play the sim</a>
         </div>
-        <div class="hero-note">Every person, machine and naira in the 3D model is simulated. Works on phones.</div>
       </div>
     </header>
+    <div class="stripes"></div>
 
     <main>
-      <section class="band gap" id="gap">
+      <section id="inside">
         <div class="wrap">
-          <div class="sec-kicker">The gap</div>
-          <h2>Nigeria has builders without benches.</h2>
-          <div class="stat-grid">
-            <div class="big"><b>1</b><span>active Fab Lab in Lagos on the Fab Foundation’s list of 11 Nigerian labs (UNILAG)</span></div>
-            <div class="big"><b>0</b><span>shared wet labs open to founders in Lagos that our research could find</span></div>
-            <div class="big"><b>$7.5M</b><span>all African hardware &amp; electronics equity raised in 2025 (Partech)</span></div>
-            <div class="big"><b>≈83k</b><span>students at UNILAG and Yabatech, a short walk from a Yaba site</span></div>
-          </div>
-          <p class="lede">Demand is already visible: 116 teams entered the 2025/26 national robotics championship, Lagos parents pay ₦45k–₦100k a month for coding and robotics classes, and UNILAG paid out more than ₦250m for student prototypes in 2025. Drone makers are raising serious money and localising production. What’s missing is a place where anyone can walk in, pay for a day, and build.</p>
-        </div>
-      </section>
-
-      <section class="wrap inside" id="inside">
-        <div class="sec-kicker">What’s inside</div>
-        <h2>Nine zones, one front door.</h2>
-        <div class="zones">
-          <article><img src="/img/cafe.webp" alt="Café with coffee bar and print wall behind glass" loading="lazy" /><h3>Café &amp; demo stage</h3><p>Open to the street. Coffee and jollof by day, demo nights by evening. The café sells the lab to everyone who walks past.</p><span class="price">Day pass ₦10,000 · CafeOne’s is ₦8,525</span></article>
-          <article><img src="/img/bench.webp" alt="Electronics benches with oscilloscopes and soldering stations" loading="lazy" /><h3>Bench hall</h3><p>24 ESD-safe seats. Every pair shares a scope and bench supply; every seat has an iron and fume extraction.</p><span class="price">Maker ₦75k/mo · Pro ₦130k/mo</span></article>
-          <article><img src="/img/fab.webp" alt="Fabrication shop with laser cutters and CNC router" loading="lazy" /><h3>Fabrication shop</h3><p>CO₂ and desktop lasers, a 4×8 ft CNC router, a PCB mill and a small SMT line. Induction first, then book by the hour.</p><span class="price">CNC ₦25k/hr · Laser ₦300/min</span></article>
-          <article><img src="/img/library.webp" alt="Component library shelving with labelled bins" loading="lazy" /><h3>Parts library + shop</h3><p>Order from your seat; a runner brings it to your bench. Walk-ins buy tested parts at the street counter.</p><span class="price">Saves a trip to Computer Village</span></article>
-          <article><img src="/img/wetlab.webp" alt="Wet lab with fume hood, biosafety cabinet and lab island" loading="lazy" /><h3>Wet lab (BSL-1)</h3><p>Fume hood, biosafety cabinet, PCR, centrifuges, autoclave, cold storage. Rented by the day or month.</p><span class="price">₦15k/day · ₦180k/month</span></article>
-          <article><img src="/img/night.webp" alt="Demo Night on the café stage with string lights" loading="lazy" /><h3>Studios, classroom, drone cage</h3><p>Two private team studios, a classroom for Robotics Saturdays and bootcamps, and a netted cage for test flights.</p><span class="price">Studio ₦650k/mo · Kids ₦15k/session</span></article>
-        </div>
-      </section>
-
-      <section class="band plan-band" id="plan">
-        <div class="wrap">
-          <div class="sec-kicker">The plan</div>
-          <h2>Public at the front. Noise and chemicals at the back.</h2>
-          <p class="lede">A ≈1,120 m² single-storey warehouse conversion. The café and parts shop face the street and pull people in. Members tap through a glass gate into the bench hall, and the print wall doubles as the window display. Workshops that are loud, dusty or chemical sit along a service “lab street” at the back, next to the loading door, extraction and power room.</p>
-          <div class="plan-wrap">
-            <div id="plan-svg"></div>
-            <div class="plan-side">
-              <div id="plan-legend" class="legend"></div>
-              <div class="notes">
-                <h4>Design notes</h4>
-                <ul>
-                  <li>Wet lab gets its own door, sink, eyewash and shower, ducted hood. No food past the gate.</li>
-                  <li>Lasers and CNC are ducted out of the back wall; floor tape marks the safe zones.</li>
-                  <li>Roof: ≈30–50 kWp solar, LFP battery, standby generator only for long outages.</li>
-                  <li>Classroom has its own street door, so kids never walk through the workshops.</li>
-                  <li>Prayer and quiet room, restrooms and lockers off the café.</li>
-                </ul>
-              </div>
+          <p class="statement reveal">From the street it is a café. <span class="soft">Behind the glass,</span> a workshop, a parts library and a lab.</p>
+          <div class="gallery">
+            <figure class="wide reveal"><img src="/img/gen/render-aerial.webp" loading="lazy" alt="Aerial dusk view of the Atoms building with solar panels on the roof and a glowing glass front on a Yaba street" /><figcaption><b>Fig 1</b> Atoms at dusk, Yaba</figcaption></figure>
+            <div class="pair">
+              <figure class="reveal"><img src="/img/gen/render-street.webp" loading="lazy" alt="Golden hour view of the Atoms street front under a black canopy, a yellow danfo passing" /><figcaption><b>Fig 2</b> The street front</figcaption></figure>
+              <figure class="reveal"><img src="/img/gen/render-cafe.webp" loading="lazy" alt="Inside the café, a barista at a walnut bar in front of a glass wall of glowing 3D printers" /><figcaption><b>Fig 3</b> The café and the print wall</figcaption></figure>
+            </div>
+            <div class="pair">
+              <figure class="reveal"><img src="/img/gen/render-bench.webp" loading="lazy" alt="Makers soldering at timber benches with blue anti-static mats and oscilloscopes" /><figcaption><b>Fig 4</b> The bench hall</figcaption></figure>
+              <figure class="reveal"><img src="/img/gen/render-fab.webp" loading="lazy" alt="A technician lifts laser-cut plywood from a CO2 laser while another runs a large CNC router" /><figcaption><b>Fig 5</b> The fab shop</figcaption></figure>
+            </div>
+            <div class="pair">
+              <figure class="reveal"><img src="/img/gen/render-wetlab.webp" loading="lazy" alt="Two scientists in lab coats pipetting at a white lab island in a bright wet lab" /><figcaption><b>Fig 6</b> The shared wet lab</figcaption></figure>
+              <figure class="reveal"><img src="/img/gen/render-drone.webp" loading="lazy" alt="A pilot flies a small quadcopter inside a netted flight cage while colleagues watch telemetry" /><figcaption><b>Fig 7</b> The drone cage</figcaption></figure>
+            </div>
+            <div class="pair">
+              <figure class="reveal"><img src="/img/gen/render-library.webp" loading="lazy" alt="A staff member with a tablet guides a visitor to a labelled parts bin" /><figcaption><b>Fig 8</b> The parts library</figcaption></figure>
+              <figure class="reveal"><img src="/img/gen/render-demo.webp" loading="lazy" alt="Friday demo night, a presenter shows a robotic arm on the café stage to an audience" /><figcaption><b>Fig 9</b> Demo Night, Fridays at 6pm</figcaption></figure>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="wrap day" id="day">
-        <div class="sec-kicker">A Friday in the lab (from the simulation)</div>
-        <h2>What a day looks like.</h2>
-        <ol class="timeline">
-          <li><time>7:30</time><p>Doors open. The café serves the first coffees to people heading to UNILAG.</p></li>
-          <li><time>8:10</time><p>Adaeze from ColdChain taps in. Her team is building solar cold-room sensors for tomato traders.</p></li>
-          <li><time>9:40</time><p>She orders two ESP32s from her bench. Musa, a non-technical hire, is routed by the ops app to Aisle A, Bin 12 and delivers in minutes.</p></li>
-          <li><time>11:05</time><p>The grid goes off. Inverters switch to battery in milliseconds. Prints keep printing; someone shouts “Up NEPA!” when it’s back.</p></li>
-          <li><time>15:20</time><p>The printer camera spots a failed print and pauses it. Chiamaka fixes it with a three-minute video guide.</p></li>
-          <li><time>18:00</time><p>Demo Night. Four teams show prototypes to the community, press and investors.</p></li>
-        </ol>
-        <a class="btn primary" href="/sim/?live">Watch a live day in the sim</a>
-      </section>
-
-      <section class="band dark ai" id="ai">
-        <div class="wrap two">
-          <div>
-            <div class="sec-kicker">Operations</div>
-            <h2>Two technical leads. Six non-technical staff. AI in every pocket.</h2>
-            <p>Makerspaces fail on maintenance and staffing. Fab Foundation guidance implies 4–5 technical staff to run two shifts. We get there with fewer specialists by putting the know-how in software.</p>
+      <section id="plan">
+        <div class="wrap split">
+          <div class="reveal">
+            <div class="eyebrow">The plan</div>
+            <h2 class="h2">One floor. Nine places.</h2>
+            <p class="lead">Public at the front. Members in the middle. Loud and chemical work at the back, beside the loading door.</p>
+            <div class="legend" id="legend"></div>
           </div>
-          <ul class="ai-list">
-            <li><b>Parts runner</b><span>Requests from members’ phones go to the nearest staff member with the exact aisle and bin.</span></li>
-            <li><b>Machine watch</b><span>Printer cameras and sensors flag faults before they waste a day, with a step-by-step fix guide.</span></li>
-            <li><b>Restock</b><span>Stock drops below a minimum and a purchase order is drafted for a manager to approve.</span></li>
-            <li><b>Safety gates</b><span>Machines unlock only for members who passed the induction for that machine.</span></li>
-            <li><b>Build-your-own tools</b><span>Managers describe a problem and get a small internal app the same day.</span></li>
-          </ul>
-        </div>
-      </section>
-
-      <section class="wrap numbers" id="numbers">
-        <div class="sec-kicker">The numbers</div>
-        <h2>About $300k, if a partner brings the space.</h2>
-        <p class="lede">Flip the switches. Prices are benchmarked to Lagos in November 2026 (₦1,355/$). Revenue ramps over 18 months; the model is in <code>web/src/data/model.ts</code>.</p>
-        <div class="toggles">
-          <div class="tg"><span>Space</span><div class="toggle" data-key="space"><button data-v="partner">Partner-provided</button><button data-v="lease">Leased warehouse</button></div></div>
-          <div class="tg"><span>Power</span><div class="toggle" data-key="power"><button data-v="lease">Solar lease</button><button data-v="own">Own solar</button></div></div>
-          <div class="tg"><span>Scope</span><div class="toggle" data-key="scope"><button data-v="full">Full</button><button data-v="lean">Lean</button></div></div>
-          <div class="tg"><span>Demand</span><div class="toggle" data-key="case"><button data-v="low">Low</button><button data-v="base">Base</button><button data-v="high">High</button></div></div>
-        </div>
-        <div class="kpi-row">
-          <div class="kpi"><span>Build cost</span><b id="k-capex"></b><small id="k-capex-n"></small></div>
-          <div class="kpi"><span>Revenue / month (yr 2)</span><b id="k-rev"></b><small>at maturity</small></div>
-          <div class="kpi"><span>Running cost / month</span><b id="k-opex"></b><small>staff, space, power, upkeep</small></div>
-          <div class="kpi"><span>EBITDA / year (yr 2)</span><b id="k-ebitda"></b><small id="k-ebitda-u"></small></div>
-          <div class="kpi"><span>Operating break-even</span><b id="k-be"></b><small>first month in profit</small></div>
-          <div class="kpi"><span>Cash payback</span><b id="k-pay"></b><small>all build costs recovered</small></div>
-        </div>
-        <div class="num-grid">
-          <figure class="card wide"><figcaption>Cumulative cash, month by month</figcaption><div id="cash-chart"></div></figure>
-          <figure class="card"><figcaption>Use of funds</figcaption><div id="use-funds"></div></figure>
-          <figure class="card"><figcaption>Revenue mix at maturity (per month)</figcaption><div id="rev-mix"></div></figure>
-          <figure class="card"><figcaption>Running costs (per month)</figcaption><div id="opex-lines"></div></figure>
-          <figure class="card"><figcaption>Pricing vs Lagos benchmarks</figcaption>
-            <table class="price-table"><tr><th></th><th>Forge</th><th>Benchmark</th></tr>
-              <tr><td>Day pass</td><td>₦10,000</td><td>₦8,525 CafeOne (no tools)</td></tr>
-              <tr><td>Student day</td><td>₦4,000</td><td>₦2,150 CafeOne student</td></tr>
-              <tr><td>Monthly</td><td>₦75k–₦130k</td><td>₦170,501 CafeOne month</td></tr>
-              <tr><td>3D printing</td><td>₦150/g</td><td>≈₦50/g material cost</td></tr>
-              <tr><td>Kids robotics</td><td>₦60k/mo</td><td>₦45k–₦100k/mo in Lagos</td></tr>
-              <tr><td>Power</td><td>solar + battery</td><td>₦209/kWh grid · ₦519–960 diesel</td></tr>
-            </table>
+          <figure class="reveal">
+            <div class="card plan-card" id="plan-svg"></div>
+            <figcaption><b>Fig 10</b> Ground floor, about 1,120 m². Hover a place to find it.</figcaption>
           </figure>
         </div>
-        <details class="capex-detail"><summary>Line-by-line build budget</summary><table><thead><tr><th>Group</th><th>Item</th><th>USD</th></tr></thead><tbody id="capex-lines"></tbody></table><p class="fine">Imported equipment includes ×1.2 for duty, 7.5% VAT, freight and clearing (confirm per HS code). Fit-out costs are estimates and need a QS quote. Rent assumes ₦55k/m²/yr in Yaba with one year upfront, the legal maximum under the Lagos Tenancy Law outside a few exempt areas.</p></details>
       </section>
 
-      <section class="band yaba" id="yaba">
-        <div class="wrap two">
-          <div>
-            <div class="sec-kicker">Location</div>
-            <h2>Yaba first.</h2>
-            <p>UNILAG and Yabatech sit on one district, with three CafeOne hubs, CcHUB and a Red Line rail stop nearby. Rents run about ₦50k–₦127k per m² a year, far below the island. If no Yaba building works, Ebute-Metta next door has warehouse space on the same rail line.</p>
-            <p class="fine">Weighted scorecard from our location research (students, partners, transport, rent, safety, flooding).</p>
-          </div>
-          <div id="loc-bars"></div>
-        </div>
-      </section>
-
-      <section class="wrap risks" id="risks">
-        <div class="sec-kicker">Risks we’ve planned for</div>
-        <h2>What others learned the hard way.</h2>
-        <div class="risk-grid">
-          <div><h4>Single funder</h4><p>Nairobi’s Gearbox closed in 2023 when its main donor (≈90% of funding) left; only its PCB assembly business survived. We run ten revenue streams and sell services from day one.</p></div>
-          <div><h4>Capex-heavy sites</h4><p>TechShop spent $2.5–3.5M per site and went into liquidation in 2017. We start with one lean site, partner space and leased solar.</p></div>
-          <div><h4>Upfront rent</h4><p>Lagos landlords often ask for two years upfront; the law caps it at one in most areas. Partner space or a one-year lease keeps cash for machines.</p></div>
-          <div><h4>Maintenance</h4><p>Budgeted at ≈12% of equipment value a year, plus AI fault detection, spare parts on the shelf and vendor service contracts.</p></div>
-          <div><h4>Diesel and FX</h4><p>Diesel moved between ₦940 and ₦2,024 a litre in 12 months. Solar and battery come first; equipment is bought in one batch at launch.</p></div>
-          <div><h4>Safety</h4><p>Machine inductions, BSL-1 scope only, LiPo safe storage, ducted extraction. Any GMO work would need biosafety agency approval and is out of scope.</p></div>
-        </div>
-      </section>
-
-      <section class="band partners" id="partners">
+      <section id="people">
         <div class="wrap">
-          <div class="sec-kicker">Partnership models</div>
-          <h2>Built with partners, not around one.</h2>
-          <div class="partner-grid">
-            <div><h4>A bank</h4><p>Co-brand the space with an existing café network, finance the solar system, and meet founders when they first need an account and a loan.</p></div>
-            <div><h4>A university</h4><p>Timetabled practical sessions for students, instead of building labs at every study centre.</p></div>
-            <div><h4>Hardware companies</h4><p>Sponsored seats and bootcamps that train the technicians and suppliers they need to hire.</p></div>
-            <div><h4>The state</h4><p>Equipment grants and shared-lab funding for a facility any Lagos founder can use.</p></div>
-          </div>
-          <div class="cta-row center">
-            <a class="btn primary" href="/sim/?tour">▶ Take the 3-minute tour</a>
+          <div class="eyebrow reveal">Who it is for</div>
+          <h2 class="h2 reveal">Come for a bench. Leave with a product.</h2>
+          <div class="people">
+            <article class="card person reveal"><img src="/img/gen/render-bench.webp" loading="lazy" alt="" /><div class="txt"><h3>Engineers</h3><p>A full bench for the day, parts brought to your seat, machines a short walk away.</p></div></article>
+            <article class="card person reveal"><img src="/img/gen/render-demo.webp" loading="lazy" alt="" /><div class="txt"><h3>Founders</h3><p>A studio for your team, investors on Friday nights, and a community that has shipped before.</p></div></article>
+            <article class="card person reveal"><img src="/img/gen/render-wetlab.webp" loading="lazy" alt="" /><div class="txt"><h3>Scientists</h3><p>A biology and chemistry bench by the day, before you raise for a lab of your own.</p></div></article>
           </div>
         </div>
       </section>
+
+      <section id="ops">
+        <div class="wrap split">
+          <div class="reveal">
+            <div class="eyebrow">Operations</div>
+            <h2 class="h2">Run by a small team with good tools.</h2>
+            <div class="ops-points">
+              <div><b>Parts in minutes</b><span>Requests go to the nearest staff member, with the exact aisle and bin.</span></div>
+              <div><b>Machines that report in</b><span>Printers and lasers flag problems before a day is lost.</span></div>
+              <div><b>Stock that reorders itself</b><span>A purchase order is drafted when a bin runs low.</span></div>
+            </div>
+          </div>
+          <figure class="reveal">
+            <div class="diagram ops">
+              <div class="phone"><div class="screen">
+                <div class="top"><span>Atoms Ops</span><span>10:42</span></div>
+                <h4>Good morning, Musa.</h4>
+                <div class="task now"><b>2 × ESP32-S3 for Ada</b><span>Bench 3, seat 2</span><div class="bin"><i>Aisle A</i><i>Bay 2</i><i class="hot">Bin 12</i></div></div>
+                <div class="task"><b>Printer P7 paused</b><span>Clog detected. Swap nozzle, 3 min video</span></div>
+                <div class="task"><b>PLA, white</b><span>6 left. Order drafted for approval</span></div>
+              </div></div>
+            </div>
+            <figcaption><b>Fig 11</b> The staff app. No engineering degree needed.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="tight">
+        <div class="wrap">
+          <div class="atmos reveal">
+            <img src="/img/gen/paint-lagoon.webp" alt="" />
+            <div class="inner">
+              <h2>Start with ₦1,000,000.</h2>
+              <p>Pick something to build. Learn, take gigs, and pitch it at Demo Night.</p>
+              <a class="btn light" href="/sim/">Play Atoms</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div id="contact-slot"></div>
     </main>
-    <footer class="wrap foot">
-      <div><b>Forge Lagos</b> is a working name. Proposal and model, November 2026. Figures are estimates for discussion, sourced from public data in our research notes.</div>
-    </footer>
-    <script type="module" src="/src/site/main.ts"></script>
+    <script type="module" src="/src/site/home.ts"></script>
   </body>
 </html>

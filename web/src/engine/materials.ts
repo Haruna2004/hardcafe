@@ -38,7 +38,7 @@ export function mat(color: string, o: MatOpts = {}): THREE.MeshStandardMaterial 
   return m
 }
 
-// Named palette used across props — tuned to read well under warm light.
+// Named palette used across props - tuned to read well under warm light.
 export const P = {
   white: '#F4F1EA',
   offwhite: '#E9E4D8',

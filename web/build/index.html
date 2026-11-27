@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#FEFFFC" />
+    <title>Atoms · The plan to build it</title>
+    <meta name="description" content="What Atoms costs to build and run, how it earns, the risks and what we need." />
+    <meta property="og:title" content="Atoms · The plan to build it" />
+    <meta property="og:description" content="Costs, revenue, risks and the ask for a hardware café and lab in Yaba." />
+    <meta property="og:image" content="https://atomslab.harunafaruk.com/img/og.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body>
+    <header class="page-hero">
+      <img src="/img/gen/paint-bench.webp" alt="Painted workbench at night with a soldering iron, a small circuit board and a cup of coffee" />
+      <div class="overlay">
+        <h1>The plan to build Atoms.</h1>
+        <p>What it costs, how it earns, and what we need to open the doors.</p>
+        <div class="actions"><a class="btn light" href="#numbers">See the numbers</a></div>
+      </div>
+    </header>
+    <div class="stripes"></div>
+    <main>
+      <section id="numbers">
+        <div class="wrap">
+          <div class="eyebrow">The numbers</div>
+          <h2 class="h2">About $300k with a partner’s space.</h2>
+          <p class="lead">Flip the switches. Lagos prices, November 2026, at ₦1,355 to the dollar. Revenue ramps over 18 months.</p>
+          <div class="toggles">
+            <div class="tg">Space <div class="toggle" data-key="space"><button data-v="partner">Partner</button><button data-v="lease">Leased</button></div></div>
+            <div class="tg">Solar <div class="toggle" data-key="power"><button data-v="lease">Leased</button><button data-v="own">Owned</button></div></div>
+            <div class="tg">Scope <div class="toggle" data-key="scope"><button data-v="full">Full</button><button data-v="lean">Lean</button></div></div>
+            <div class="tg">Demand <div class="toggle" data-key="case"><button data-v="low">Low</button><button data-v="base">Base</button><button data-v="high">High</button></div></div>
+          </div>
+          <div class="kpis">
+            <div class="kpi"><span>To build and open</span><b id="k-capex"></b><small id="k-capex-n"></small></div>
+            <div class="kpi"><span>Revenue a month, year 2</span><b id="k-rev"></b><small>at maturity</small></div>
+            <div class="kpi"><span>Running cost a month</span><b id="k-opex"></b><small>staff, space, power, upkeep</small></div>
+            <div class="kpi"><span>Profit before tax, year 2</span><b id="k-ebitda"></b><small id="k-ebitda-u"></small></div>
+            <div class="kpi"><span>First profitable month</span><b id="k-be"></b><small>after opening</small></div>
+            <div class="kpi"><span>Build cost paid back</span><b id="k-pay"></b><small>cumulative cash</small></div>
+          </div>
+          <div class="grid2">
+            <figure class="card span"><h3>Cumulative cash, month by month</h3><div id="cash-chart"></div></figure>
+            <figure class="card"><h3>Where the money goes</h3><div id="use-funds"></div></figure>
+            <figure class="card"><h3>How it earns, per month in year 2</h3><div id="rev-mix"></div></figure>
+            <figure class="card"><h3>What it costs to run, per month</h3><div id="opex-lines"></div></figure>
+            <figure class="card"><h3>Prices</h3>
+              <table class="t">
+                <tr><th>Item</th><th>Price</th></tr>
+                <tr><td>Day pass with a full bench</td><td>₦10,000</td></tr>
+                <tr><td>Maker membership</td><td>₦75,000 a month</td></tr>
+                <tr><td>Pro membership, 24/7 and credits</td><td>₦130,000 a month</td></tr>
+                <tr><td>3D printing</td><td>₦150 a gram</td></tr>
+                <tr><td>Wet lab bench</td><td>₦15,000 a day</td></tr>
+                <tr><td>Team studio</td><td>₦650,000 a month</td></tr>
+                <tr><td>Kids robotics session</td><td>₦15,000</td></tr>
+              </table>
+            </figure>
+          </div>
+          <details class="more"><summary>Line by line build budget</summary>
+            <table class="t"><thead><tr><th>Item</th><th>USD</th></tr></thead><tbody id="capex-lines"></tbody></table>
+            <p class="src">Imported equipment includes 20% for duty, VAT, freight and clearing. Fit-out is an estimate until a quantity surveyor prices the building. Rent assumes ₦55,000 per m² a year with one year paid upfront.</p>
+          </details>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap">
+          <div class="eyebrow">Risks</div>
+          <h2 class="h2">What could go wrong, and the plan for it.</h2>
+          <div class="tiles">
+            <div class="card tile"><h3>One funder</h3><p>Ten revenue streams from day one, none above a fifth of the total.</p></div>
+            <div class="card tile"><h3>Heavy buildings</h3><p>One lean site in a partner’s space, with leased solar.</p></div>
+            <div class="card tile"><h3>Upfront rent</h3><p>A partner’s building, or a lease of one year at most.</p></div>
+            <div class="card tile"><h3>Broken machines</h3><p>About 12% of equipment value set aside each year, spares on the shelf, faults flagged early.</p></div>
+            <div class="card tile"><h3>Diesel and the naira</h3><p>Solar and battery first. Equipment bought once, at launch.</p></div>
+            <div class="card tile"><h3>Safety</h3><p>Inductions per machine, BSL-1 lab work only, ducted extraction, safe battery storage.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap">
+          <div class="eyebrow">Partners</div>
+          <h2 class="h2">Built with partners, not around one.</h2>
+          <div class="tiles">
+            <div class="card tile"><h3>A bank</h3><p>A café network, solar finance, and the first account and loan of every founder who walks in.</p></div>
+            <div class="card tile"><h3>A university</h3><p>Timetabled practical hours for students, without building labs at every study centre.</p></div>
+            <div class="card tile"><h3>Hardware companies</h3><p>Sponsored seats and bootcamps that train the technicians they need to hire.</p></div>
+            <div class="card tile"><h3>The state</h3><p>Equipment grants for a shared lab any Lagos founder can use.</p></div>
+            <div class="card tile"><h3>Makers of tools</h3><p>Printers, boards and instruments placed where thousands of builders see them every month.</p></div>
+            <div class="card tile"><h3>Investors</h3><p>A Friday night pipeline of tested prototypes and the teams behind them.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap">
+          <div class="eyebrow">Roadmap</div>
+          <h2 class="h2">Open in about six months.</h2>
+          <div class="rows">
+            <div><b>Months 0 to 3</b><span>Partners and building agreed. Design signed off. Long-lead equipment ordered.</span></div>
+            <div><b>Months 3 to 6</b><span>Fit-out, solar and power. Fourteen staff hired and trained. Café and parts shop open first.</span></div>
+            <div><b>Month 6</b><span>The lab opens. First bootcamp and the first Demo Night.</span></div>
+            <div><b>Month 18 on</b><span>Once the first site is profitable, a second city on the same plan and software.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="tight">
+        <div class="wrap">
+          <p class="statement">We are looking for a building, about $300k for equipment and fit-out, <span class="soft">and programmes that fill the benches from day one.</span></p>
+        </div>
+      </section>
+
+      <div id="contact-slot"></div>
+    </main>
+    <script type="module" src="/src/site/build.ts"></script>
+  </body>
+</html>

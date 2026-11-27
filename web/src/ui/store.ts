@@ -184,7 +184,7 @@ export const useUI = create<UIState>((set, get) => ({
           kind: 'agent', id: a.id, title: a.info.name, subtitle: a.info.title, body: a.info.bio, team,
           doing: a.doing,
           rows: [
-            ['Plan', a.info.plan ?? '—'],
+            ['Plan', a.info.plan ?? 'None'],
             ...(a.info.project ? [['Working on', a.info.project] as [string, string]] : []),
             ['In since', fmtMin(a.arrivedAt)],
             ['Spent today', '₦' + Math.round(a.spentToday).toLocaleString('en-NG')],
@@ -202,7 +202,7 @@ export const useUI = create<UIState>((set, get) => ({
         sel = {
           kind: 'prop', id: p.id, title: p.def.info.name, subtitle: p.def.info.category, body: p.def.info.desc, status,
           rows: [
-            ...(p.def.info.priceUSD ? [['Est. cost', `$${p.def.info.priceUSD.toLocaleString()} (≈₦${Math.round((p.def.info.priceUSD * 1354) / 1e6 * 10) / 10}m)`] as [string, string]] : []),
+            ...(p.def.info.priceUSD ? [['Est. cost', `$${p.def.info.priceUSD.toLocaleString()} (about ₦${Math.round((p.def.info.priceUSD * 1354) / 1e6 * 10) / 10}m)`] as [string, string]] : []),
             ['Zone', ROOM_BY_ID[p.zone]?.name ?? p.zone],
             ['Used today', `${Math.round(p.usage)} min`],
           ],

@@ -1,42 +1,43 @@
-# Lagos Hardware Lab (working name: Forge Lagos)
+# Atoms
 
-A pitch kit for a hardware coworking lab in Yaba, Lagos: café + makerspace + components library + shared wet lab, run by a small team with AI ops tools.
+A café, a workshop and a shared lab in Yaba, Lagos. This repo holds the pitch kit: the website, a playable 3D sim, the floor plan, the financial model and the research behind it.
+
+## Links
+
+- Site: https://atomslab.harunafaruk.com/
+- Sim, guided tour: https://atomslab.harunafaruk.com/sim/?tour
+- Sim, play from ₦1,000,000: https://atomslab.harunafaruk.com/sim/
+- The plan and numbers: https://atomslab.harunafaruk.com/build/
+- The landscape, verified facts: https://atomslab.harunafaruk.com/landscape/
 
 ## What's here
 
 | Folder | What |
 |---|---|
-| `research/` | Market research (Nov 2026): landscape & comparables, Lagos economics, location & demand, stakeholders |
-| `web/` | Playable 3D sim of the lab (Three.js + React). Deployed to https://lab.harunafaruk.com/sim/ |
-| `design/` | Architecture: floor plan, zoning, equipment schedule |
-| `model/` | Financial model (capex, opex, revenue, break-even) |
-| `deck/` | Pitch deck material |
+| `web/` | The site and the sim (Vite, TypeScript, Three.js, React) |
+| `web/src/data/layout.ts` | The building. Drives the 3D sim and the plan drawings |
+| `web/src/data/model.ts` | Financial model: build cost, running cost, revenue, break-even |
+| `web/src/play/` | Play mode: money, energy, skills, projects, Demo Night |
+| `design/` | Floor plan drawings |
+| `model/` | `npx tsx model/run.ts` prints every scenario |
+| `research/` | `00-verified.md` holds the facts used in public. The other files are working notes from November 2026 |
 
-## Links
+## Headline numbers (base case)
 
-- Site + interactive numbers: https://lab.harunafaruk.com/
-- Playable 3D sim (guided tour): https://lab.harunafaruk.com/sim/?tour
-- Pitch deck (Claude Slides, private until shared): https://claude.ai/artifact/78fk1E992abGyK1gUThBRL
+- About $304k to build and open in a partner's building with leased solar. About $366k in a leased warehouse.
+- About ₦12m a month to run in the partner case, with a first profitable month around month 7.
 
-## Key findings (Nov 2026)
+These are estimates until a quantity surveyor prices a real building.
 
-- **Is anyone building this in Lagos?** No café + makerspace + parts + wet lab found. Lagos has partial pieces (UNILAG FabLab, under-used; CcHUB's education kit; B2B print bureaus). Public lab money is going to Abuja and Ilorin. Miva + Terra's drone/robotics labs started in Abuja, so Lagos is open.
-- **Can Nigerians pay?** Yes at day-pass level: ₦10k/day vs CafeOne ₦8,525. A CafeOne month (₦170,501) is 79% of median formal pay, so memberships sit at ₦75k–₦130k and partners sponsor seats.
-- **Best location:** Yaba (scored 4.40/5): UNILAG + Yabatech ≈ 83k students, 3 CafeOne hubs, CcHUB, Red Line stop. Fallback: Ebute-Metta.
-- **Cost:** ≈$304k with partner-provided space and leased solar; ≈$366k if we lease a warehouse (Lagos landlords want rent upfront). Year-2 EBITDA ≈ ₦161m (partner case), break-even month 7.
-- **Biggest risks:** single-funder dependence (Gearbox), capex-heavy sites (TechShop), staffing/maintenance, diesel + FX swings.
-
-Details and sources: `research/01-landscape.md`, `02-economics.md`, `03-location-demand.md`, `04-stakeholders.md`. Model: `web/src/data/model.ts` (`npx tsx model/run.ts`). Floor plan: `design/floor-plan.svg`.
-
-## Run the sim locally
+## Run locally
 
 ```bash
 cd web
 npm install
-npm run dev        # http://localhost:5173/sim/
-npm run build && npx wrangler deploy   # deploy to Cloudflare
+npm run dev                            # http://localhost:5173
+npm run build && npx wrangler deploy   # Cloudflare, atomslab.harunafaruk.com
 ```
 
-URL params: `?tour` starts the guided tour, `?live` skips the intro, `?ff=120` fast-forwards 120 sim minutes, `?q=low|medium|high` forces render quality.
+Sim URL params: `?tour` starts the tour, `?live` skips the intro, `?ff=120` fast-forwards 120 sim minutes, `?q=low|medium|high` forces render quality.
 
-The building layout lives in `web/src/data/layout.ts` and drives both the 3D sim and the plan drawings.
+Images in `web/public/img/gen/` were generated with FLUX through Runware. `manifest.json` holds their alt text and captions.
